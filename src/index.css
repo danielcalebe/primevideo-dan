@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@font-face {
+  font-family: "Amazon";
+  src: url(/src/assets/font/Amazon\ Ember.ttf);
+}
+html{
+  font-family: "Amazon";
+}

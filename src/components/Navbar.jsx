@@ -1,0 +1,230 @@
+import React, { useState } from 'react'
+import { assets } from '../assets/assets'
+
+const Navbar = () => {
+
+
+    const [isVisibleSearchBar, setIsVisibleSearchbar] = useState(false);
+    const toggleVisibilitySearchBar = () => {
+        setIsVisibleSearchbar(!isVisibleSearchBar);  // Alterna entre true e false
+    };
+    return (
+        <div className='bg-black w-full p-3 px-10 flex items-center justify-between lg:bg-opacity-0 bg-black'>
+
+
+            <div className='text-white text-center font-[550] lg:flex items-center gap-3  hidden '>
+
+                <div className='min-w-28 w-28 mr-5 cursor-pointer'>
+                    <img src={assets.logo_white} alt="" />
+                </div>
+
+                <div className=' hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 easy-in-out'>
+                    <h3 className='px-4 py-2'>Início</h3>
+                </div>
+                <div className='hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 easy-in-out'>
+                    <h3 className='px-4 py-2'>Filmes</h3>
+                </div>
+                <div className='hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 easy-in-out'>
+                    <h3 className='px-4 py-2'>Series</h3>
+                </div>
+                <div className='hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 easy-in-out'>
+                    <h3 className='px-4 py-2'>Esportes</h3>
+                </div>
+                <div className='hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 easy-in-out'>
+                    <h3 className='px-4 py-2 truncate'>TV ao vivo</h3>
+                </div>
+                <hr className='border-none bg-[#666B79] h-6 w-[2.5px]' />
+
+                <div className='hover:shadow-[0px_4px_15px_0px_#0578FF] px-4 py-2  rounded-lg cursor-pointer hover:bg-[#0578FF] hover:text-black transition-all duration-150 easy-in-out flex gap-2 items-center'>
+                    <img className='min-w-11 w-11 	' src={assets.logo_prime_white} alt="" />
+                </div>
+
+                <div className='group px-4 py-2 hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 easy-in-out flex gap-2 items-center'>
+                    <img className='w-[22px] h-[19px]	group-hover:invert' src={assets.subscriptions_icon} alt="" />
+                    <h3 className=''>Assinaturas</h3>
+                </div>
+
+            </div>
+
+            <div className='group font-[550] lg:hidden'>
+                <div className='  px-4 py-2 hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer group-hover:bg-white group-hover:text-black transition-all duration-150 easy-in-out flex 
+                items-center justify-center gap-2'>
+                    <h3 className='text-white group-hover:text-black'>Menu</h3>
+                    <img className='w-3  group-hover:invert group-hover:rotate-180' src={assets.arrow_white_icon} alt="" />
+
+                </div>
+
+                <div className='hidden group-hover:flex absolute mt-2 bg-[#2D3239]   flex-col bg-opacity-60 backdrop-blur-md p-6 rounded text-white gap-2'>
+                    <div className='hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 easy-in-out'>
+                        <h3 className='px-4 py-2'>Início</h3>
+                    </div>
+                    <div className='hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 easy-in-out'>
+                        <h3 className='px-4 py-2'>Filmes</h3>
+                    </div>
+                    <div className='hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 easy-in-out'>
+                        <h3 className='px-4 py-2'>Series</h3>
+                    </div>
+                    <div className=' hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 easy-in-out'>
+                        <h3 className='px-4 py-2'>Esportes</h3>
+                    </div>
+                    <div className='hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 easy-in-out'>
+                        <h3 className='px-4 py-2'>TV ao vivo</h3>
+                    </div>
+
+                    <div className='group px-4 py-2 flex items-center gap-2 hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 
+                easy-in-out'>
+                        <h3 >Categorias</h3>
+                        <img className='w-3 h-2  hover:invert hover:rotate-180' src={assets.arrow_white_icon} alt="" />
+
+                    </div>
+
+                    <div className='group px-4 py-2 flex items-center gap-2 hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 
+                easy-in-out'>
+                        <h3 >Minha área</h3>
+                        <img className='w-3 h-2  hover:invert hover:rotate-180' src={assets.arrow_white_icon} alt="" />
+
+                    </div>
+
+                    <div className='hover:shadow-[0px_4px_15px_0px_#0578FF] px-4 py-2  rounded-lg cursor-pointer flex justify-center
+             bg-[#0578FF] hover:text-black transition-all duration-150 easy-in-out flex gap-2 items-center'>
+                        <img className='min-w-11 w-11 	' src={assets.logo_prime_white} alt="" />
+                    </div>
+
+                    <div className='group   px-4 py-2 hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer bg-[#2D3239] hover:bg-white hover:text-black transition-all duration-150 easy-in-out flex gap-2 items-center'>
+                        <img className='w-[22px] h-[19px]	hover:invert' src={assets.subscriptions_icon} alt="" />
+                        <h3 className=''>Assinaturas</h3>
+                    </div>
+
+                </div>
+            </div>
+
+            <div className='min-w-28 w-28 mr-5 lg:hidden'>
+                <img src={assets.logo_white} alt="" />
+            </div>
+
+            <div className='flex items-center'>
+                <div onClick={toggleVisibilitySearchBar} className=' cursor-pointer group w-10 h-10 rounded-full hover:bg-white p-2 flex items-center justify-center'>
+                    <img className='w-[80%] group-hover:invert' src={assets.search_icon} alt="" />
+                </div>
+                <div className='cursor-pointer group w-10 h-10 rounded-full hover:bg-white p-2 lg:flex items-center
+                 justify-center hidden'>
+                    <img className='w-[80%] group-hover:invert' src={assets.categories_icon} alt="" />
+
+                    <div className='flex  absolute bg-[#181C23] text-white mt-[23.5%] -ml-[35%] p-4 rounded-lg bg-opacity-80  transition-all duration-500 ease-in-out mt-72 transform hidden group-hover:flex translate-x-[1000px]  hidden group-hover:flex group-hover:translate-x-0'>
+                        {/* Primeira lista de gêneros */}
+                        <div className=''>
+                            <p className='text-md font-medium p-2 mb-2 brightness-50 tracking-wider'>GÊNEROS</p>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-2">
+                                <div className="hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 ease-in-out">
+                                    <h3 className="px-4 py-2">Ação e aventura</h3>
+                                </div>
+                                <div className="hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 ease-in-out">
+                                    <h3 className="px-4 py-2">Anime</h3>
+                                </div>
+                                <div className="hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 ease-in-out">
+                                    <h3 className="px-4 py-2">Comédia</h3>
+                                </div>
+                                <div className="hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 ease-in-out">
+                                    <h3 className="px-4 py-2">Documentário</h3>
+                                </div>
+                                <div className="hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 ease-in-out">
+                                    <h3 className="px-4 py-2">Drama</h3>
+                                </div>
+                                <div className="hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 ease-in-out">
+                                    <h3 className="px-4 py-2">Fantasia</h3>
+                                </div>
+                                <div className="hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 ease-in-out">
+                                    <h3 className="px-4 py-2">Terror</h3>
+                                </div>
+                                <div className="hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 ease-in-out">
+                                    <h3 className="px-4 py-2">Infantis</h3>
+                                </div>
+                                <div className="hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 ease-in-out">
+                                    <h3 className="px-4 py-2">Suspense e mistério</h3>
+                                </div>
+                                <div className="hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 ease-in-out">
+                                    <h3 className="px-4 py-2">Romance</h3>
+                                </div>
+                                <div className="hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 ease-in-out">
+                                    <h3 className="px-4 py-2">Ficção científica</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Segunda lista de gêneros */}
+                        <div className="">
+                            <p className='text-md font-medium p-2 mb-2 brightness-50 tracking-wider'>COLEÇÕES EM DESTAQUE</p>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-2">
+                                <div className="hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 ease-in-out">
+                                    <h3 className="px-4 py-2">O Melhor de 2025</h3>
+                                </div>
+                                <div className="hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 ease-in-out">
+                                    <h3 className="px-4 py-2">Feito para você</h3>
+                                </div>
+                                <div className="hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 ease-in-out">
+                                    <h3 className="px-4 py-2">Ao vivo em breve</h3>
+                                </div>
+                                <div className="hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 ease-in-out">
+                                    <h3 className="px-4 py-2">Estreia em casa</h3>
+                                </div>
+                                <div className="hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 ease-in-out">
+                                    <h3 className="px-4 py-2">Aclamados pela crítica</h3>
+                                </div>
+                                <div className="hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 ease-in-out">
+                                    <h3 className="px-4 py-2">LGBTQIAP+</h3>
+                                </div>
+                                <div className="hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 ease-in-out">
+                                    <h3 className="px-4 py-2">Vozes negras</h3>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div className='cursor-pointer group w-10 h-10 rounded-full hover:bg-white p-2 lg:flex items-center justify-center hidden'>
+                    <img className='w-[80%] group-hover:invert' src={assets.mystuff_icon} alt="" />
+
+                    <div className="absolute bg-[#181C23] -ml-5 text-white p-4 rounded-lg bg-opacity-80 transition-all duration-500 ease-in-out mt-64 transform  translate-x-[300px] hidden group-hover:block  group-hover:translate-x-0">
+                        <p className='text-md font-medium p-2 mb-2 brightness-50 tracking-wide	'>MINHA ÁREA</p>
+                        <div className='flex flex-col gap-2'>
+                            <div className='hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 easy-in-out'>
+                                <h3 className='px-4 py-2'>Todos</h3>
+                            </div>  <div className='hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 easy-in-out'>
+                                <h3 className='px-4 py-2'>Sua lista</h3>
+                            </div>  <div className='hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 easy-in-out'>
+                                <h3 className='px-4 py-2'>Comprar ou alugar</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div className='cursor-pointer group w-10 h-10 rounded-full hover:bg-white  flex items-center justify-center'>
+                    <img className='w-[100%] group-hover:' src={assets.profile_icon} alt="" />
+                </div>
+            </div>
+
+
+
+            <div className={`mt-56 absolute left-1/2 transform -translate-x-1/2 bg-[#181C23]  items-center justify-center p-10 rounded-lg w-[60%]
+                transition-all duration-400 easy-in-out  ${isVisibleSearchBar ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
+                <div className='flex gap-2 items-center p-3 bg-[#33373D] rounded-lg focus-within:border-2 focus-within:border-white w-full'>
+                    <img className='w-6 h-6 brightness-75' src={assets.search_icon} alt="" />
+                    <input
+                        className='bg-transparent focus:outline-none p-2 rounded w-full text-white'
+                        type="text"
+                        placeholder="Busca"
+                    />
+                </div>
+            </div>
+
+
+        </div>
+    )
+}
+
+export default Navbar
