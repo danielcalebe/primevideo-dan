@@ -3,30 +3,21 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import Navbar from './components/Navbar'
 import { assets } from './assets/assets'
+import Display from './components/Display'
 
 function App() {
 
   return (
     
     <>  
-    
-    <div className='h-screen'>
-       <div 
-    className="w-full  h-[100%]  "  // Garante que ocupe toda a tela
-    style={{
-      backgroundColor: 'rgba(174, 8, 8, 0.2)',
+  <div className="relative h-screen">
+  <div className="absolute top-0 left-0 w-full z-10">
+    <Navbar />
+  </div>
+    <Display />
+</div>
 
-      backgroundImage: `url(${assets.ss})`,
-      backgroundSize: 'cover',  // Faz a imagem cobrir toda a área
-      backgroundPosition: 'center',  // Centraliza a imagem
-      backgroundRepeat: 'no-repeat',  // Impede a repetição da imagem
-    }}
-  >
-      <Navbar />
-      
-   
-        {/* Outros conteúdos aqui */}
-      </div></div>
+
     </>
   )
 }

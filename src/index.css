@@ -10,3 +10,6 @@
 html{
   font-family: "Amazon";
 }
+.inner-custom {
+  box-shadow: inset 40px 70px 100px 100px rgba(0, 0, 0, 0.8); 
+}

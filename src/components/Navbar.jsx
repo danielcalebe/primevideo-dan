@@ -9,7 +9,7 @@ const Navbar = () => {
         setIsVisibleSearchbar(!isVisibleSearchBar);  // Alterna entre true e false
     };
     return (
-        <div className='bg-black w-full p-3 px-10 flex items-center justify-between lg:bg-opacity-0 bg-black'>
+        <div className='bg-black w-full p-3 px-10 flex items-center justify-between md:bg-opacity-0  bg-black'>
 
 
             <div className='text-white text-center font-[550] lg:flex items-center gap-3  hidden '>
@@ -109,11 +109,11 @@ const Navbar = () => {
                 <div className='cursor-pointer group w-10 h-10 rounded-full hover:bg-white p-2 lg:flex items-center
                  justify-center hidden'>
                     <img className='w-[80%] group-hover:invert' src={assets.categories_icon} alt="" />
-
-                    <div className='flex  absolute bg-[#181C23] text-white mt-[23.5%] -ml-[35%] p-4 rounded-lg bg-opacity-80  transition-all duration-500 ease-in-out mt-72 transform hidden group-hover:flex translate-x-[1000px]  hidden group-hover:flex group-hover:translate-x-0'>
+                    <div className='  absolute bg-[#181C23] text-white -ml-[35%] p-4 rounded-lg bg-opacity-80  
+                    transition-all duration-300 ease-in-out top-[77.5%]  hidden     group-hover:flex transform translate-x-[200%]   group-hover:flex group-hover:translate-x-0'>
                         {/* Primeira lista de gêneros */}
                         <div className=''>
-                            <p className='text-md font-medium p-2 mb-2 brightness-50 tracking-wider'>GÊNEROS</p>
+                            <p className='text-md  p-2 mb-2 brightness-50 tracking-wider'>GÊNEROS</p>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-2">
                                 <div className="hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 ease-in-out">
@@ -154,7 +154,7 @@ const Navbar = () => {
 
                         {/* Segunda lista de gêneros */}
                         <div className="">
-                            <p className='text-md font-medium p-2 mb-2 brightness-50 tracking-wider'>COLEÇÕES EM DESTAQUE</p>
+                            <p className='text-md p-2 mb-2 brightness-50 tracking-wider'>COLEÇÕES EM DESTAQUE</p>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-2">
                                 <div className="hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 ease-in-out">
@@ -178,7 +178,7 @@ const Navbar = () => {
                                 <div className="hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 ease-in-out">
                                     <h3 className="px-4 py-2">Vozes negras</h3>
                                 </div>
-                               
+
                             </div>
                         </div>
                     </div>
@@ -189,8 +189,8 @@ const Navbar = () => {
                 <div className='cursor-pointer group w-10 h-10 rounded-full hover:bg-white p-2 lg:flex items-center justify-center hidden'>
                     <img className='w-[80%] group-hover:invert' src={assets.mystuff_icon} alt="" />
 
-                    <div className="absolute bg-[#181C23] -ml-5 text-white p-4 rounded-lg bg-opacity-80 transition-all duration-500 ease-in-out mt-64 transform  translate-x-[300px] hidden group-hover:block  group-hover:translate-x-0">
-                        <p className='text-md font-medium p-2 mb-2 brightness-50 tracking-wide	'>MINHA ÁREA</p>
+                    <div className="absolute bg-[#181C23] -ml-5 text-white p-4 rounded-lg bg-opacity-80 transition-all duration-500 ease-in-out top-[77.5%] transform  translate-x-[300px] hidden  group-hover:block  group-hover:translate-x-0">
+                        <p className='text-md  p-2 mb-2 brightness-50 tracking-wide	'>MINHA ÁREA</p>
                         <div className='flex flex-col gap-2'>
                             <div className='hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 easy-in-out'>
                                 <h3 className='px-4 py-2'>Todos</h3>
@@ -205,6 +205,82 @@ const Navbar = () => {
                 </div>
                 <div className='cursor-pointer group w-10 h-10 rounded-full hover:bg-white  flex items-center justify-center'>
                     <img className='w-[100%] group-hover:' src={assets.profile_icon} alt="" />
+
+                    <div className='absolute bg-[#181C23] -ml-[35%] lg:-ml-[25%] text-white p-4 rounded-lg 
+                     bg-opacity-80 transition-all duration-500 ease-in-out top-[77.5%] transform 
+                      translate-x-[200%] hidden  group-hover:flex  group-hover:translate-x-0'>
+                        <div className=''>
+                            <p className='text-md p-2 mb-2 brightness-50 tracking-wider'>SUA CONTA</p>
+
+                            <div className="grid grid-cols-1 gap-2">
+                                <div className="hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 ease-in-out">
+                                    <h3 className="px-4 py-2">Ajuda</h3>
+                                </div>
+                                <div className="hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 ease-in-out">
+                                    <h3 className="px-4 py-2">Assita onde quiser</h3>
+                                </div>
+                                <div className="hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 ease-in-out">
+                                    <h3 className="px-4 py-2">Conta e configurações</h3>
+                                </div>
+                                <div className="hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 ease-in-out">
+                                    <h3 className="px-4 py-2">Sair</h3>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div className=''>
+                            <p className='text-md 	 p-2 mb-2 brightness-50 tracking-wider'>PERFIS</p>
+
+                            <div className="grid grid-cols-1 gap-2">
+                                <div className=" px-4 py-1 hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)]
+                                 rounded-lg cursor-pointer flex gap-2 items-center hover:bg-white hover:text-black 
+                                 transition-all  duration-150 ease-in-out">
+                                    <img className='w-10' src={assets.profile_icon} alt="" />
+                                    <h3 className="">danielcalebe</h3>
+                                </div>
+                                <div className=" px-4 py-1 hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)]
+                                 rounded-lg cursor-pointer flex gap-2 items-center hover:bg-white hover:text-black 
+                                 transition-all  duration-150 ease-in-out">
+                                    <img className='w-10' src={assets.profile_icon} alt="" />
+                                    <h3 className="">danielcalebe</h3>
+                                </div>
+                                <div className=" px-4 py-1 hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)]
+                                 rounded-lg cursor-pointer flex gap-2 items-center hover:bg-white hover:text-black 
+                                 transition-all  duration-150 ease-in-out">
+                                    <img className='w-10' src={assets.profile_icon} alt="" />
+                                    <h3 className="">danielcalebe</h3>
+                                </div>
+                                <div className=" px-4 py-1 hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)]
+                                 rounded-lg cursor-pointer flex gap-2 items-center hover:bg-white hover:text-black 
+                                 transition-all  duration-150 ease-in-out">
+                                    <img className='w-10' src={assets.profile_icon} alt="" />
+                                    <h3 className="">danielcalebe</h3>
+                                </div>
+                                <div className="px-4 py-2 hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)]
+                                    rounded-lg cursor-pointer flex gap-2 items-center hover:bg-white hover:text-black 
+                                    transition-all duration-150 ease-in-out">
+
+                                    <div className="cursor-pointer flex justify-center items-center hover:invert 
+                                    group w-8 h-8 rounded-full bg-[#33373d]">
+                                        <img className="w-[50%] " src={assets.add_icon} alt="Adicionar" />
+                                    </div>
+                                    <h3 className="">Adicionar um novo perfil</h3>
+                                </div>
+
+
+                                <div className="hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 ease-in-out">
+                                    <h3 className="px-4 py-2">Editar perfil</h3>
+                                </div>
+                                <div className="hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 ease-in-out">
+                                    <h3 className="px-4 py-2">Saiba mais</h3>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
                 </div>
             </div>
 
