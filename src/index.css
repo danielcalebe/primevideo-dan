@@ -8,8 +8,38 @@
   src: url(/src/assets/font/Amazon\ Ember.ttf);
 }
 html{
-  font-family: "Amazon";
+  font-family: Amazon , Arial, Helvetica, sans-serif;
 }
 .inner-custom {
   box-shadow: inset 40px 70px 100px 100px rgba(0, 0, 0, 0.8); 
+}
+.inner-custom2 {
+  box-shadow: inset 2000px 2000px 2000px 2000px rgba(0, 0, 0, 0.8); 
+}
+.animation_smooth{
+  transition: all 0.4s ease-in-out; 
+}
+
+.animation_smooth :hover{
+  transform: scale(1.05); /* Tailwind: scale-105 */
+}
+
+button.prev,
+button.next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+button.prev {
+  left: 10px;
+}
+
+button.next {
+  right: 10px;
 }
