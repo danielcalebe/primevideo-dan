@@ -11,24 +11,41 @@ import OriginalsItem from './OriginalsItem';
 const Display = () => {
 
     const [hoverStartTime, setHoverStartTime] = useState(null);
-    const [showTeaser, setshowTeaser] = useState(false);
+    const [showTeaser, setShowTeaser] = useState(false);
+    const [videoStarted, setVideoStarted] = useState(false); // Estado para controlar o início do vídeo
+    const videoRef = useRef(null);
 
+    // Função chamada ao entrar no hover
     const handleMouseEnter = () => {
         const timeout = setTimeout(() => {
-            setshowTeaser(true); // Mostra o conteúdo após 5 segundos
-        }, 1000);
+            setShowTeaser(true); // Mostra o conteúdo após 5 segundos
+            setVideoStarted(true); // Inicia o vídeo após o tempo de hover
+        }, 3000); // Aguarda 5 segundos
 
         setHoverStartTime({ time: performance.now(), timeout });
     };
 
+    // Função chamada ao sair do hover
     const handleMouseLeave = () => {
         if (hoverStartTime?.timeout) {
             clearTimeout(hoverStartTime.timeout); // Cancela o timeout se o mouse sair antes de 5 segundos
         }
         setHoverStartTime(null);
-        setshowTeaser(false); // Oculta o conteúdo novamente
+        setShowTeaser(false); // Oculta o conteúdo novamente
+        setVideoStarted(false); // Para o vídeo caso o hover seja interrompido
+        if (videoRef.current) {
+            videoRef.current.pause(); // Pausa o vídeo
+        }
     };
 
+    const stopVideo = () => {
+        const videoElement = document.getElementById("videoC");
+        if (videoElement) {
+            videoElement.pause(); // Pausa o vídeo
+             // Opcional: reseta o tempo do vídeo para o início
+        }
+    };
+    
 
     const carouselRef = useRef(null);
 
@@ -51,8 +68,14 @@ const Display = () => {
             });
         }
     };
+    const [isPlaying, setIsPlaying] = useState(false); // Estado para controlar se o vídeo está sendo reproduzido
 
+    const isAutoplayEnabled = !videoStarted || !isPlaying;
 
+    const [isMuted, setIsMuted] = useState(true); // Estado para controlar o mute/desmute
+    const toggleMute = () => {
+        setIsMuted(!isMuted); // Alterna o estado do mute
+    };
 
     return (
         <div className="w-full h-screen bg-black">
@@ -64,10 +87,12 @@ const Display = () => {
                 }}
                 spaceBetween={50}
                 slidesPerView={1}
-
+                onSlideChange={stopVideo}
                 pagination={{
                     clickable: true,
-                }} autoplay={{ delay: 20000 }}
+                }}
+                autoplay={isAutoplayEnabled ? { delay: 20000 } : false} // Condiciona o autoplay com base no estado do vídeo
+
                 className="w-full h-[80%]"
             >
                 {seriesData.map((slide) => (
@@ -85,35 +110,49 @@ const Display = () => {
                         >
                             {/* Conteúdo com transição */}
                             <div
-                                className={` absolute  inset-0 flex items-center justify-center
-                                     bg-black bg-opacity-75 text-white text-lg transition-opacity duration-500 ${showTeaser ? "block oapcity-100" : "hidden opacity-0"
+                                className={` absolute  inset-0 flex 
+                                     bg-black bg-opacity-75 text-white text-lg transition-opacity duration-500 ${showTeaser ? "block opapcity-100" : "hidden opacity-0"
                                     }`}
                             >
 
                                 <video
-
-                                    className=" top-2 a w-[100%] h-full a -right-[12%] absolute"
+                    id="videoC"
+                    className=" top-2 a w-[100%] h-full a  lg:-right-[12%] absolute"
                                     autoPlay
                                     loop
-                                    muted
+                                    muted={isMuted}
                                     playsInline
+                                    style={{
+                                        visibility: videoStarted ? 'visible' : 'hidden', // Só exibe o vídeo após 5 segundos
+                                    }}
                                 >
                                     <source className="a absolute " src={slide.teaser} type="video/mp4" />
                                     <div className="video-shadow-overlay"></div>
 
                                 </video>
 
+                                <button
+                                    className="absolute top-[18%] right-[5%] p-2 bg-black bg-opacity-50 rounded-full text-white"
+                                    onClick={toggleMute} // Altera o estado de mute ao clicar
+                                >
+                                    {isMuted ? (
+                                        <img className="w-6 h-6" src={assets.unmute_icon} alt="Mute" />
+                                    ) : (
+                                        <img className="w-6 h-6" src={assets.mute_icon} alt="Unmute" />
+                                    )}
+                                </button>
+
                             </div>
 
 
 
-                            <div className={`p-14 w-[40%] flex flex-col gap-2 `}>
+                            <div className={`p-14 w-[45%] flex flex-col gap-2 `}>
                                 <div className='flex flex-col gap-3 group transition-all duration-500 ease-in-out  transform scale-95 hover:scale-100'>
                                     <img className='w-16 transition-all duration-500 ease-in-out' src={assets.logo_prime_blue} alt="" />
                                     <img className='w-64 transition-all duration-500 ease-in-out' src={slide.logo} alt="" />
 
                                     {/* Descrição com animação e limitação de linhas */}
-                                    <p className="text-white opacity-0 group-hover:opacity-100 group-hover:flex transition-opacity 
+                                    <p className="text-white opacity-0 group-hover:opacity-100 md:group-hover:flex transition-opacity  hidden
                                             duration-500 ease-in-out line-clamp-2 h-1 group-hover:h-12 transform scale-90 group-hover:scale-100">
                                         {slide.description}
                                     </p>
@@ -121,28 +160,30 @@ const Display = () => {
 
                                 <div className="flex flex-wrap gap-4 items-center justify-center sm:justify-start">
                                     {/* Botão "Assista agora" */}
-                                    <div className="relative w-full sm:w-auto">
-                                        <button
-                                            className="flex items-center gap-3 w-full sm:w-auto px-6 py-3 bg-[#33373E] text-white font-semibold text-sm sm:text-base rounded-lg hover:bg-white hover:text-black transition-all duration-300 ease-in-out"
+                                    <div className="relative w-full group sm:w-auto">
+                                        <div
+                                            className="flex items-center gap-3 w-full sm:w-auto px-1 sm:px-6 justify-center sm:justify-start py-3 bg-[#33373E] text-white font-semibold text-sm sm:text-base rounded-lg hover:bg-white hover:text-black transition-all duration-300 ease-in-out"
                                         >
                                             <img
-                                                className="w-6 sm:w-8 group-hover:invert"
+                                                className="w-[40%] sm:w-8 w-20 group-hover:invert md:relative sm:absolute"
                                                 src={assets.play_icon}
                                                 alt="Play Icon"
                                             />
-                                            <span>Assista agora</span>
-                                        </button>
+                                            <span className='truncate sm:block hidden'>Assista agora</span>
+                                        </div>
                                     </div>
 
                                     {/* Botões de adicionar e informações */}
-                                    <div className="flex gap-4">
+                                    <div className="flex  gap-4">
                                         {/* Botão Adicionar */}
                                         <div className="relative group">
                                             <div
-                                                className="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-[#33373E] rounded-full hover:bg-white transition-all duration-300 ease-in-out cursor-pointer"
+                                                className="  flex items-center justify-center w-10 h-10   sm:w-12 sm:h-12 md:w-14 md:h-14 bg-[#33373E]
+                                                 rounded-full hover:bg-white
+                                                 transition-all duration-300 ease-in-out cursor-pointer"
                                             >
                                                 <img
-                                                    className="w-6 sm:w-8 group-hover:invert"
+                                                    className="w-[50%] sm:w-8 group-hover:invert"
                                                     src={assets.add_icon}
                                                     alt="Adicionar"
                                                 />
@@ -157,10 +198,10 @@ const Display = () => {
                                         {/* Botão Informações */}
                                         <div className="relative group">
                                             <div
-                                                className="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-[#33373E] rounded-full hover:bg-white transition-all duration-300 ease-in-out cursor-pointer"
+                                                className="flex items-center justify-center w-10 h-10   sm:w-12 sm:h-12 md:w-14 md:h-14  bg-[#33373E] rounded-full hover:bg-white transition-all duration-300 ease-in-out cursor-pointer"
                                             >
                                                 <img
-                                                    className="w-6 sm:w-8 group-hover:invert"
+                                                    className="w-[50%] sm:w-8 group-hover:invert"
                                                     src={assets.info_icon}
                                                     alt="Detalhes"
                                                 />
@@ -201,90 +242,97 @@ const Display = () => {
 
 
 
-            <div className="w-full p-6 bg-black mt=10">
-                <h2 className="text-white text-2xl mb-4 ">Séries em Destaque</h2>
+            <div className="relative">
+                {/* Carrossel "Séries em Destaque" */}
+                <div className="w-full p-6 bg-black relative">
+                    <h2 className="text-white text-2xl mb-4">Séries em Destaque</h2>
 
-                <Swiper
-                    modules={[Navigation,]}
-                    navigation={{
-                        nextEl: '.custom-next-second',
-                        prevEl: '.custom-prev-second',
-                    }}
-                    spaceBetween={20}
-                    slidesPerView={5}
-                    className="w-full"
-                >
-                    {seriesData.map((serie, index) => (
-                        <SwiperSlide key={serie.id}>
-                            <SerieItem
-                                id={serie.id}
-                                name={serie.name}
-                                description={serie.description}
-                                background={serie.background}
-                                logo={serie.logo}
-                                index={index}
-                            />
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
-                <button className="custom-prev-second text-white absolute left-4 -bottom-10 transform -translate-y-1/2 z-10">
-                    <img className='w-10 rotate-90' src={assets.arrow_white_icon} alt="" />
+                    {/* Botão de Navegação para o carrossel de "Séries em Destaque" */}
+                    <button
+                        className="peer custom-prev-second text-white absolute left-6 top-[155px] hover:bg-[#33373E] hover:bg-opacity-50 transform scale-90 transition-all duration-300 easy-in-out hover:scale-110 p-1 py-16 rounded transform -translate-y-1/2 z-20"
+                    >
+                        <img className="w-4 rotate-90" src={assets.arrow_white_icon} alt="" />
+                    </button>
 
-                </button>
-                <button className="custom-next-second text-white absolute right-4 -bottom-10    transform -translate-y-1/2 z-10">
-                    <img className='w-10 -rotate-90' src={assets.arrow_white_icon} alt="" />
+                    <button
+                        className="custom-next-second text-white absolute right-6 top-[155px] hover:bg-[#33373E] hover:bg-opacity-50 transform scale-90 transition-all duration-300 easy-in-out hover:scale-110 p-1 py-16 transform -translate-y-1/2 z-30"
+                    >
+                        <img className="w-4 -rotate-90" src={assets.arrow_white_icon} alt="" />
+                    </button>
 
-                </button>
+                    <Swiper
+                        modules={[Navigation]}
+                        navigation={{
+                            nextEl: '.custom-next-second',
+                            prevEl: '.custom-prev-second',
+                        }}
+                        spaceBetween={300}
+                        slidesPerView={5}
+                        className="w-full flex gap-4"
+                    >
+                        {seriesData.map((serie, index) => (
+                            <SwiperSlide key={serie.id}>
+                                <SerieItem
+                                    id={serie.id}
+                                    name={serie.name}
+                                    description={serie.description}
+                                    background={serie.background}
+                                    logo={serie.logo}
+                                    index={index}
+                                />
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+                </div>
+
+
+
+                {/* Carrossel "Original Prime" */}
+                <div className="w-full p-6 bg-black absolute top-60">
+                    <h2 className="text-white text-2xl mb-4">Original Prime</h2>
+
+                    <div className="relative">
+                        {/* Botão de Navegação para o carrossel de "Original Prime" */}
+                        <button
+                            onClick={(e) => { e.stopPropagation(); handlePrev(); }} // Impede propagação do evento
+                            className="peer text-white absolute z-20 top-[50%] hover:bg-[#33373E] hover:bg-opacity-50 transform scale-90 transition-all duration-300 easy-in-out hover:scale-110 p-1 py-16 rounded transform -translate-y-1/2 z-20"
+                        >
+                            <img className="w-4 rotate-90" src={assets.arrow_white_icon} alt="" />
+                        </button>
+
+                        {/* Contêiner do Carrossel */}
+                        <div ref={carouselRef} className="flex gap-4 scroll-smooth overflow-hidden">
+                            {originalsPrimeData.map((item, index) => (
+                                <OriginalsItem
+                                    key={index}
+                                    id={item.id}
+                                    name={item.name}
+                                    description={item.description}
+                                    img1={item.img1}
+                                    img2={item.img2}
+                                    logo={item.logo}
+                                    index={index}
+                                />
+                            ))}
+                        </div>
+
+                        <button
+                            onClick={(e) => { e.stopPropagation(); handleNext(); }} // Impede propagação do evento
+                            className="text-white absolute z-20 top-[50%] right-0 hover:bg-[#33373E] hover:bg-opacity-50 transform scale-90 transition-all duration-300 easy-in-out hover:scale-110 p-1 py-16 transform -translate-y-1/2 z-30"
+                        >
+                            <img className="w-4 -rotate-90" src={assets.arrow_white_icon} alt="" />
+                        </button>
+                    </div>
+
+                    <div className="bg-black h-[500px]"></div>
+                </div>
             </div>
 
 
 
+        </div>
 
-
-
-            <div className="w-full p-6 bg-black">
-                <h2 className="text-white text-2xl mb-4">Séries em Destaque</h2>
-
-                <div className="relative">
-                    {/* Botão para navegar para trás */}
-                    <button
-                        onClick={handlePrev}
-                        className="absolute left-0 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full z-10 hover:bg-opacity-75"
-                    >
-                        ❮
-                    </button>
-
-                    {/* Contêiner do Carrossel */}
-                    <div
-                        ref={carouselRef}
-                        className="flex gap-4 overflow-x-scroll scroll-smooth no-scrollbar"
-                    >
-                        {originalsPrimeData.map((item, index) => (
-                            <OriginalsItem
-                                key={index}
-                                id={item.id}
-                                name={item.name}
-                                description={item.description}
-                                img1={item.img1}
-                                img2={item.img2}
-                                logo={item.logo}
-                                index={index}
-                            />
-                        ))}
-                    </div>
-
-                    {/* Botão para navegar para frente */}
-                    <button
-                        onClick={handleNext}
-                        className="absolute right-0 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full z-10 hover:bg-opacity-75"
-                    >
-                        ❯
-                    </button>
-                </div>
-                <div className='bg-black h-[500px]'></div>
-            </div>            </div>
-
-            );
+    );
 };
 
-            export default Display;
+export default Display;

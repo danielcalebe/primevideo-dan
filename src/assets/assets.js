@@ -14,6 +14,8 @@ import info_icon from './info.png'
 import verified_icon from './verified.png'
 import age_icon from './age.png'
 import hide_icon from './hide.png'
+import mute_icon from './mute.png'
+import unmute_icon from './unmute.png'
 
 
 
@@ -48,7 +50,9 @@ export const assets = {
     info_icon,
     verified_icon,
     age_icon,
-    hide_icon
+    hide_icon,
+    mute_icon,
+    unmute_icon
 
     
 }
@@ -154,7 +158,7 @@ export const seriesData = [
       
     },
        {
-      id: 1,
+      id:2,
       name: 'The Office',
       description: 'INVINCIBLE is an adult animated superhero series that revolves around 17-year-old Mark Grayson, who’s just like every other guy his age — except his father is the most powerful superhero on the planet, Omni-Man. But as Mark develops powers of his own, he discovers his father’s legacy may not be as heroic as it seems.',
       img1: theofficeIMG,
@@ -162,7 +166,7 @@ export const seriesData = [
       logo: theofficeLOGO
       
     },   {
-      id: 1,
+      id: 3,
       name: 'The Office',
       description: 'INVINCIBLE is an adult animated superhero series that revolves around 17-year-old Mark Grayson, who’s just like every other guy his age — except his father is the most powerful superhero on the planet, Omni-Man. But as Mark develops powers of his own, he discovers his father’s legacy may not be as heroic as it seems.',
       img1: theofficeIMG,
@@ -171,7 +175,7 @@ export const seriesData = [
       
     },
     {
-      id: 1,
+      id: 4,
       name: 'The Office',
       description: 'INVINCIBLE is an adult animated superhero series that revolves around 17-year-old Mark Grayson, who’s just like every other guy his age — except his father is the most powerful superhero on the planet, Omni-Man. But as Mark develops powers of his own, he discovers his father’s legacy may not be as heroic as it seems.',
       img1: theofficeIMG,
@@ -179,24 +183,8 @@ export const seriesData = [
       logo: theofficeLOGO
       
     },
-    {
-      id: 1,
-      name: 'The Office',
-      description: 'INVINCIBLE is an adult animated superhero series that revolves around 17-year-old Mark Grayson, who’s just like every other guy his age — except his father is the most powerful superhero on the planet, Omni-Man. But as Mark develops powers of his own, he discovers his father’s legacy may not be as heroic as it seems.',
-      img1: theofficeIMG,
-      img2: theofficeIMG2,
-      logo: theofficeLOGO
-      
-    },
-    {
-      id: 1,
-      name: 'The Office',
-      description: 'INVINCIBLE is an adult animated superhero series that revolves around 17-year-old Mark Grayson, who’s just like every other guy his age — except his father is the most powerful superhero on the planet, Omni-Man. But as Mark develops powers of his own, he discovers his father’s legacy may not be as heroic as it seems.',
-      img1: theofficeIMG,
-      img2: theofficeIMG2,
-      logo: theofficeLOGO
-      
-    },
+  
+  
 
     
   ]
