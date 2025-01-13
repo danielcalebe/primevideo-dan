@@ -3,7 +3,7 @@ import { assets } from '../assets/assets';
 
 const OriginalsItem = ({ id, name, description, img1, img2, logo }) => {
   return (
-    <div className="group w-[50%] md:w-[30%] lg:w-[20%] hover:lg:w-[50%] hover:w-[100%] hover:md:w-[80%] hover:sm:w-[100%]   flex-shrink-0 relative group-group transition-transform duration-300">
+    <div className="cursor-pointer group w-[50%] md:w-[30%] lg:w-[20%] hover:lg:w-[50%] hover:w-[100%] hover:md:w-[80%] hover:sm:w-[100%]   flex-shrink-0 relative group-group transition-transform duration-500 scale-90 hover:scale-100">
       <div className='w-full group-hover:hidden '>
         <img src={assets.logo_prime_white} alt="" className="absolute w-10 bottom-2 right-2 " />
 

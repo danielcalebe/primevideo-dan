@@ -4,18 +4,27 @@ import viteLogo from '/vite.svg'
 import Navbar from './components/Navbar'
 import { assets } from './assets/assets'
 import Display from './components/Display'
+import Footer from './components/Footer'
 
 function App() {
 
   return (
-    
-    <>  
-  <div className="relative h-screen">
-  <div className="absolute top-0 left-0 w-full z-10">
-    <Navbar />
-  </div>
-    <Display />
-</div>
+
+    <>
+        <div className="relative h-screen h-full flex flex-col ">
+          <div className="absolute top-0 left-0 w-full z-10">
+            <Navbar />
+          </div>
+          <div className=' '>
+                      <Display />
+
+          </div>
+          <div>
+
+          </div>
+
+        </div>
+
 
 
     </>

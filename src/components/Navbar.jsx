@@ -1,20 +1,25 @@
 import React, { useState } from 'react'
 import { assets } from '../assets/assets'
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
+    const { pathname: path } = useLocation();
 
 
     const [isVisibleSearchBar, setIsVisibleSearchbar] = useState(false);
     const toggleVisibilitySearchBar = () => {
         setIsVisibleSearchbar(!isVisibleSearchBar);  // Alterna entre true e false
     };
+
+
+    const navigate = useNavigate();
     return (
         <div className='bg-black w-full p-3 px-10 flex items-center justify-between md:bg-opacity-0  bg-black'>
 
 
             <div className='text-white text-center font-[550] lg:flex items-center gap-3  hidden '>
 
-                <div className='min-w-28 w-28 mr-5 cursor-pointer'>
+                <div onClick={() => navigate('/')} className='min-w-28 w-28 mr-5 cursor-pointer'>
                     <img src={assets.logo_white} alt="" />
                 </div>
 
@@ -98,17 +103,20 @@ const Navbar = () => {
                 </div>
             </div>
 
-            <div className='min-w-28 w-28 mr-5 lg:hidden'>
-                <img src={assets.logo_white} alt="" />
+            <div className='min-w-28 w-28 mr-5 lg:hidden cursor-pointer'>
+                <img onClick={() => navigate('/')} src={assets.logo_white} alt="" />
             </div>
 
             <div className='flex items-center'>
                 <div onClick={toggleVisibilitySearchBar} className=' cursor-pointer group w-10 h-10 rounded-full hover:bg-white p-2 flex items-center justify-center'>
                     <img className='w-[80%] group-hover:invert' src={assets.search_icon} alt="" />
                 </div>
-                <div className='cursor-pointer group w-10 h-10 rounded-full hover:bg-white p-2 lg:flex items-center
-                 justify-center hidden'>
-                    <img className='w-[80%] group-hover:invert' src={assets.categories_icon} alt="" />
+                <div onClick={() => navigate(`/categories`) } className={`cursor-pointer group w-10 h-10 rounded-full hover:bg-white p-2 lg:flex items-center 
+                 justify-center hidden ${  path.includes('categories')
+                    ? 'bg-gradient-to-b from-white via-gray-500 via-gray-500 via-gray-700 to-gray-900'
+
+                    : ''}`}>
+                    <img  className='w-[80%] group-hover:invert' src={assets.categories_icon} alt="" />
                     <div className='  absolute bg-[#181C23] text-white -ml-[35%] p-4 rounded-lg bg-opacity-80  
                     transition-all duration-300 ease-in-out top-[77.5%]  hidden     group-hover:flex transform translate-x-[200%]   group-hover:flex group-hover:translate-x-0'>
                         {/* Primeira lista de gêneros */}
@@ -270,7 +278,7 @@ const Navbar = () => {
 
 
                                 <div className="hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 ease-in-out">
-                                    <h3 className="px-4 py-2">Editar perfil</h3>
+                                    <h3 onClick={() => navigate('/editprofile')} className="px-4 py-2">Editar perfil</h3>
                                 </div>
                                 <div className="hover:shadow-[1px_1px_4px_1px_rgba(255,255,255,0.5)] rounded-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-150 ease-in-out">
                                     <h3 className="px-4 py-2">Saiba mais</h3>

@@ -187,5 +187,77 @@ export const seriesData = [
   
 
     
+    
   ]
 
+
+  export const categories = [
+
+    {
+      id:1,
+      name:"Ação e Aventura",
+      bgColor:"#1A2E35",
+    },
+    {
+      id:2,
+      name:"Anime",
+      bgColor:"#2C1E37",
+    },
+    {
+      id:3,
+      name:"Comédia",
+      bgColor:"#2D2E1C",
+    },
+
+    {
+      id:4,
+      name:"Documentário",
+      bgColor:"#203437",
+    },
+
+    {
+      id:5,
+      name:"Drama",
+      bgColor:"#311F1E",
+    },
+
+    {
+      id:6,
+      name:"Fantasia",
+      bgColor:"#211A3A",
+    },
+
+    {
+      id:7,
+      name:"Terror",
+      bgColor:"#14281B",
+    },
+
+    {
+      id:8,
+      name:"Infantis",
+      bgColor:"#30251E",
+    },
+
+    {
+      id:9,
+      name:"Suspense e Mistério",
+      bgColor:"#1C263D",
+    },
+
+    {
+      id:10,
+      name:"Romance",
+      bgColor:"#341C2D",
+    },
+
+    {
+      id:11,
+      name:"Ficção Científica",
+      bgColor:"#2F3135",
+    },
+
+
+
+
+  ]

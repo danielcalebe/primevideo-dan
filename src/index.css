@@ -43,3 +43,12 @@ button.prev {
 button.next {
   right: 10px;
 }
+.swiper-pagination-bullet-active {
+  width: 1% !important;
+  height: 1%;
+  border-radius: 10px !important;
+  background-color: #fff !important; /* Altera a cor de fundo */
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
