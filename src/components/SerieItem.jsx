@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { assets } from '../assets/assets';
 import tmdb from '../assets/api/tmdb'; // Certifique-se de que o tmdb está importado corretamente
+import { useNavigate } from 'react-router-dom';
 
 const SerieItem = ({ id, name, description, background, logo }) => {
 
 
 
 
-
+const navigate = useNavigate();
 
   return (
     <div>
-      <div className="min-w-[300px] min-h-[150px] rounded text-white group">
+      <div onClick={() => navigate(`/detail/${id}`)} className="min-w-[300px] min-h-[150px] rounded text-white group ">
         <div
           className="min-h-[150px] sm:min-h-[150px] lg:min-h-[150px] rounded relative group-hover:scale-110 transition-all duration-300 ease-in-out"
           style={{

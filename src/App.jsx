@@ -12,7 +12,7 @@ function App() {
 
     <>
         <div className="relative h-screen h-full flex flex-col ">
-          <div className="absolute top-0 left-0 w-full z-10">
+          <div className=" top-0 left-0 w-full z-10 fixed">
             <Navbar />
           </div>
           <div className=' '>

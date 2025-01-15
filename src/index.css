@@ -52,3 +52,22 @@ button.next {
   height: 20px;
   border-radius: 50%;
 }
+
+.bg-smooth{
+  transition: background-color 0.25s ease-in-out;
+
+}
+
+.scale-smooth {
+  transform: scale(1);
+  transition: all 0.4s ease-in-out;
+}
+
+
+.scale-smooth:hover {
+  transform: scale(1.1);
+}
+
+.smooth {
+  transition: all 0.4s ease-in-out;
+}

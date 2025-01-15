@@ -16,6 +16,9 @@ import age_icon from './age.png'
 import hide_icon from './hide.png'
 import mute_icon from './mute.png'
 import unmute_icon from './unmute.png'
+import download_icon from './download.png'
+import share_icon from './share.png'
+import like_icon from './like.png'
 
 
 
@@ -52,8 +55,10 @@ export const assets = {
     age_icon,
     hide_icon,
     mute_icon,
-    unmute_icon
-
+    unmute_icon,
+    download_icon,
+    share_icon,
+    like_icon
     
 }
 
