@@ -5,20 +5,39 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import { assets, seriesData } from '../assets/assets';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import DisplayDetailContent from './DisplayDetailContent';
 const DisplayDetail = () => {
-
     const { id } = useParams();
+    const [activeContent, setActiveContent] = useState('a');
     const data = seriesData ? seriesData[id - 1] : null;
-    console.log(data)
+    const [isFixed, setIsFixed] = useState(false);
+    const containerDetailRef = useRef(null);
+    const navigate = useNavigate();
+    useEffect(() => {
+        const handleScroll = () => {
+            if (containerDetailRef.current) {
+                const containerTop = containerDetailRef.current.getBoundingClientRect().top;
+                setIsFixed(containerTop <= window.innerHeight * 0.08); 
+            }
+        };
 
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
+    const handleContentToggle = (content) => {
+        setActiveContent((prevContent) => (prevContent === content ? null : content));
+    };
 
+   
 
 
     return (
         <div className="w-full h-screen  ">
-            <div className='w-full h-[90%] lg:h-[95%] xl:h-[80%] translate-y-[13%] transform flex flex-col  inner-custom  '
+            <div className='w-full h-[90%] lg:h-[95%] xl:h-[80%]  lg:translate-y-[13%] translate-y-[9%] transform flex flex-col   inner-custom  '
                 style={{
                     backgroundImage: `url(${data.background})`,
                     backgroundSize: 'cover',
@@ -74,7 +93,7 @@ const DisplayDetail = () => {
                         {/**Botões grandes */}
                         <div className='max-w-[60%] flex gap-2  '>
 
-                            <div className=' bg-smooth   lg:text-lg text-md font-[600] flex gap-3 bg-[#33373E] p-2 px-3 rounded-lg items-center bg-opacity-80 tracking-wider cursor-pointer group hover:text-black hover:bg-white'>
+                            <div onClick={()=> navigate(`/player/${data.id}`)} className=' bg-smooth   lg:text-lg text-md font-[600] flex gap-3 bg-[#33373E] p-2 px-3 rounded-lg items-center bg-opacity-80 tracking-wider cursor-pointer group hover:text-black hover:bg-white'>
                                 <img className=' group-hover:invert h-4 lg:h-6' src={assets.play_icon} alt="" />
                                 <p className='truncate'>
                                     <h5>Episódio 1</h5>
@@ -115,7 +134,7 @@ const DisplayDetail = () => {
 
 
                         </div>
-                        <div className='mt-3 flex gap-2 	'>
+                        <div id='a' className='mt-3 flex gap-2 	'>
                             <img className='h-[5%]' src={assets.verified_icon} alt="" />
                             <p>Incluído no Prime</p>
                         </div>
@@ -134,8 +153,33 @@ const DisplayDetail = () => {
 
 
 
-            <div className='text-white flex bg-black  top-[90%] absolute w-full'>dasddsadasdasdsadgsadhasdsahdhasdhas
-<img src={assets.add_icon} alt="" />
+            <div ref={containerDetailRef}  className='text-white flex bg-black flex-col     w-full absolute top-[95%]'>
+            <div
+                className={`flex gap-6 px-12  items-center ${
+                    isFixed ? 'fixed top-[8%] bg-[#363A40] bg-opacity-80 backdrop-blur-lg w-[99%]  mx-2 rounded-lg z-10 py-5 ' : ' pt-8 pb-2'
+                }`}
+            >
+                    {['Episódios', 'Relacionados', 'Detalhes'].map((label, index) => {
+                        const contentKey = String.fromCharCode(97 + index);
+                        return (
+                            <a
+                            href ='#a'
+                                key={contentKey}
+                                onClick={() => handleContentToggle(contentKey)  }
+                                className={`cursor-pointer flex flex-col items-center text-lg font-medium ${activeContent === contentKey ? '' : 'brightness-50'
+                                    }
+                                  `}
+                            >
+                                {label}
+                                
+                                <hr className={`w-full  border-white border-2 mt-2 transition-all duration-500 easy-in-out
+                                     ${activeContent === contentKey ? 'opacity' : 'opacity-0'}`}/>
+                            </a>
+                        );
+                    })}
+                </div>
+                <DisplayDetailContent activeContent={ activeContent} />
+
             </div>
 
 

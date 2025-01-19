@@ -11,19 +11,19 @@ function App() {
   return (
 
     <>
-        <div className="relative h-screen h-full flex flex-col ">
-          <div className=" top-0 left-0 w-full z-10 fixed">
-            <Navbar />
-          </div>
-          <div className=' '>
-                      <Display />
+      <div className="relative h-screen h-full flex flex-col ">
+        <div className=" top-0 left-0 w-full z-10 fixed">
+          <Navbar />
+        </div>
+          <Display  />
 
-          </div>
-          <div>
 
-          </div>
+
+        <div>
 
         </div>
+
+      </div>
 
 
 
