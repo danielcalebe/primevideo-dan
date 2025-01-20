@@ -6,7 +6,7 @@ const PlayerContext = createContext();
 // Criando o Provedor
 export const PlayerProvider = ({ children }) => {
   const videoRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   const [volume, setVolume] = useState(1); // Volume inicial
   const [progress, setProgress] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
@@ -99,6 +99,22 @@ export const PlayerProvider = ({ children }) => {
     };
   }, []);
 
+
+
+  const skipForward = () => {
+    if (videoRef.current) {
+      videoRef.current.currentTime += 10; // Avança 10 segundos
+    }
+  };
+
+  const skipBackward = () => {
+    if (videoRef.current) {
+      videoRef.current.currentTime -= 10; // Volta 10 segundos
+    }
+  };
+  const handleVideoEnd = () => {
+    setIsPlaying(false); // Atualiza o estado de isPlaying para false quando o vídeo terminar
+  };
   return (
     <PlayerContext.Provider
       value={{
@@ -118,7 +134,10 @@ export const PlayerProvider = ({ children }) => {
         handleProgressChange,
         updateProgress,
         toggleMute,
-        handleFullScreen
+        handleFullScreen,
+        skipForward,
+        skipBackward,
+        handleVideoEnd
       }}
     >
       {children}

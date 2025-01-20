@@ -26,6 +26,7 @@ import exit_icon from './exit.png'
 import exit_full_screen_icon from './exit_full_screen.png'
 import enter_full_screen_icon from './enter_full_screen.png'
 import settings_icon from './settings.png'
+import pause_icon from './pause.png'
 
 
 import supernaturalBG from './supernaturalBG.jpg'
@@ -72,6 +73,7 @@ export const assets = {
   enter_full_screen_icon,
   exit_icon,
   settings_icon,
+  pause_icon
 
 }
 
