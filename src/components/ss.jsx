@@ -41,3 +41,52 @@
                             </button>
                         </div>
                     </div>
+
+
+
+
+const seekVideo = async (e) => {
+    if (audioRef.current && audioRef.current.duration) {
+      audioRef.current.currentTime =
+        (e.nativeEvent.offsetX / seekBg.current.offsetWidth) *
+        audioRef.current.duration;
+    }
+  };
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.ontimeupdate = () => {
+        seekBar.current.style.width = `${
+          (audioRef.current.currentTime / audioRef.current.duration) * 100
+        }%`;
+        setTime({
+          currentTime: {
+            second: Math.floor(audioRef.current.currentTime % 60),
+            minute: Math.floor(audioRef.current.currentTime / 60),
+          },
+          totalTime: {
+            second: Math.floor(audioRef.current.duration % 60),
+            minute: Math.floor(audioRef.current.duration / 60),
+          },
+        });
+      };
+    }
+  }, [audioRef]);
+
+
+
+  const seekBg = useRef();
+  const seekBar = useRef();
+
+
+
+  const [time, setTime] = useState({
+    currentTime: {
+      second: 0,
+      minute: 0,
+    },
+    totalTime: {
+      second: 0,
+      minute: 0,
+    },
+  });

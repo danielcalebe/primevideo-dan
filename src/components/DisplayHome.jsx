@@ -10,28 +10,23 @@ import OriginalsItem from './OriginalsItem';
 import { getTrendingMovies } from '../assets/api/tmdb';
 import Footer from './Footer';
 const DisplayHome = () => {
-
     const [hoverStartTime, setHoverStartTime] = useState(null);
     const [showTeaser, setShowTeaser] = useState(false);
     const [videoStarted, setVideoStarted] = useState(false); // Estado para controlar o início do vídeo
     const videoRef = useRef(null);
+    const timeoutRef = useRef(null); // Usando useRef para guardar o timeout
 
-    // Função chamada ao entrar no hover
     const handleMouseEnter = () => {
-        const timeout = setTimeout(() => {
-            setShowTeaser(true); // Mostra o conteúdo após 5 segundos
+        timeoutRef.current = setTimeout(() => {
+            setShowTeaser(true); // Mostra o conteúdo após 3 segundos
             setVideoStarted(true); // Inicia o vídeo após o tempo de hover
-        }, 3000); // Aguarda 5 segundos
-
-        setHoverStartTime({ time: performance.now(), timeout });
+        }, 3000); // Aguarda 3 segundos
     };
 
-    // Função chamada ao sair do hover
     const handleMouseLeave = () => {
-        if (hoverStartTime?.timeout) {
-            clearTimeout(hoverStartTime.timeout); // Cancela o timeout se o mouse sair antes de 5 segundos
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current); // Cancela o timeout se o mouse sair antes de 3 segundos
         }
-        setHoverStartTime(null);
         setShowTeaser(false); // Oculta o conteúdo novamente
         setVideoStarted(false); // Para o vídeo caso o hover seja interrompido
         if (videoRef.current) {
@@ -40,13 +35,10 @@ const DisplayHome = () => {
     };
 
     const stopVideo = () => {
-        const videoElement = document.getElementById("videoC");
-        if (videoElement) {
-            videoElement.pause(); // Pausa o vídeo
-            // Opcional: reseta o tempo do vídeo para o início
+        if (videoRef.current) {
+            videoRef.current.pause(); // Pausa o vídeo
         }
     };
-
 
     const carouselRef = useRef(null);
 
@@ -93,7 +85,7 @@ const DisplayHome = () => {
 
 
     return (
-        <div className="w-full h-screen bg-black mb-[900px]">
+        <div className="w-full h-screen bg-black mb-[900px] absolute ">
             <Swiper
                 modules={[Navigation, Pagination, Autoplay]}
                 spaceBetween={50}
@@ -257,9 +249,9 @@ const DisplayHome = () => {
 
 
 
-            <div className="relative">
+            <div className="relative ">
                 {/* Carrossel "Séries em Destaque" */}
-                <div className="w-full p-6 bg-black relative">
+                <div className="w-full p-6 bg-black absolute top-0     ">
                     <h2 className="text-white text-2xl mb-4">Séries em Destaque</h2>
 
                     {/* Botão de Navegação para o carrossel de "Séries em Destaque" */}

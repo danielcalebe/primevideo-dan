@@ -11,6 +11,22 @@ export const PlayerProvider = ({ children }) => {
   const [progress, setProgress] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
+  const seekBg = useRef();
+  const seekBar = useRef();
+
+
+
+  const [time, setTime] = useState({
+    currentTime: {
+      second: 0,
+      minute: 0,
+    },
+    totalTime: {
+      second: 0,
+      minute: 0,
+    },
+  });
+
 
   // Play/Pause handler
   const togglePlayPause = () => {
@@ -115,6 +131,101 @@ export const PlayerProvider = ({ children }) => {
   const handleVideoEnd = () => {
     setIsPlaying(false); // Atualiza o estado de isPlaying para false quando o vídeo terminar
   };
+
+
+
+
+
+
+
+
+  const seekVideo = async (e) => {
+    if (videoRef.current && videoRef.current.duration) {
+      videoRef.current.currentTime =
+        (e.nativeEvent.offsetX / seekBg.current.offsetWidth) *
+        videoRef.current.duration;
+    }
+  };
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.ontimeupdate = () => {
+        seekBar.current.style.width = `${
+          (videoRef.current.currentTime / videoRef.current.duration) * 100
+        }%`;
+        setTime({
+          currentTime: {
+            second: Math.floor(videoRef.current.currentTime % 60),
+            minute: Math.floor(videoRef.current.currentTime / 60),
+          },
+          totalTime: {
+            second: Math.floor(videoRef.current.duration % 60),
+            minute: Math.floor(videoRef.current.duration / 60),
+          },
+        });
+      };
+    }
+  }, [videoRef]);
+
+
+
+
+
+  useEffect(() => {
+    const handleSpaceKeyPress = (event) => {
+      if (event.code === "Space") {  // Detecta a tecla "Espaço"
+        event.preventDefault();  // Impede o comportamento padrão (ex: rolar a página)
+
+        // Alterna entre play e pause
+        if (videoRef.current.paused) {
+          videoRef.current.play();
+          setIsPlaying(true);
+
+        } else {
+          videoRef.current.pause();
+          setIsPlaying(false);
+
+        }
+      }
+    };
+
+    // Adiciona o evento de teclado para detectar a tecla de espaço
+    document.addEventListener("keydown", handleSpaceKeyPress);
+
+    // Remove o evento quando o componente for desmontado
+    return () => {
+      document.removeEventListener("keydown", handleSpaceKeyPress);
+    };
+  }, []); // O useEffect será executado apenas uma vez ao montar o componente
+
+
+
+  const [isInactive, setIsInactive] = useState(false);
+  const timeoutDuration = 3000; // Tempo de inatividade em milissegundos (3 segundos)
+  let timeout;
+
+  useEffect(() => {
+    // Função para reiniciar o timeout e detectar atividade
+    const resetInactivity = () => {
+      setIsInactive(false);
+      clearTimeout(timeout);
+      timeout = setTimeout(() => setIsInactive(true), timeoutDuration);
+    };
+
+    // Adiciona o evento de movimento do mouse
+    window.addEventListener("mousemove", resetInactivity);
+
+    // Configura o timeout inicial
+    timeout = setTimeout(() => setIsInactive(true), timeoutDuration);
+
+    // Limpa os recursos ao desmontar
+    return () => {
+      clearTimeout(timeout);
+      window.removeEventListener("mousemove", resetInactivity);
+    };
+  }, []);
+
+
   return (
     <PlayerContext.Provider
       value={{
@@ -137,7 +248,13 @@ export const PlayerProvider = ({ children }) => {
         handleFullScreen,
         skipForward,
         skipBackward,
-        handleVideoEnd
+        handleVideoEnd,
+        seekBg,
+        seekBar,
+        time, setTime,
+        seekVideo,
+        isInactive, setIsInactive
+
       }}
     >
       {children}

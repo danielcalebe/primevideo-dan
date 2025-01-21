@@ -72,3 +72,6 @@ button.next {
   transition: all 0.4s ease-in-out;
 }
 
+html{
+  user-select: none
+}
