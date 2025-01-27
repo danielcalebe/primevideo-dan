@@ -1,7 +1,7 @@
 import React from 'react';
 import { assets, categories, seriesData } from '../assets/assets';
 import { useLocation } from 'react-router-dom';
-import SerieItem from './SerieItem';
+import CarrousselItem from './CarrousselItem';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -53,12 +53,12 @@ const DisplayMyStuff = () => {
                     >
                         {seriesData.map((serie, index) => (
                             <SwiperSlide key={serie.id}>
-                                <SerieItem
+                                <CarrousselItem
                                     id={serie.id}
                                     name={serie.name}
                                     description={serie.description}
                                     background={serie.background}
-
+                                
                                     logo={serie.logo}
 
                                     index={serie.index}

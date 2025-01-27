@@ -18,10 +18,10 @@ const Display = () => {
         <Route path='/categories' element={<DisplayCategories />} />
         <Route path='/editprofile' element={<DisplayEditProfile />} />
         <Route path='/mystuff' element={<DisplayMyStuff />} />
-        <Route path='/detail/:id' element={<DisplayDetail />} />
+        <Route path='/detail/:type/:id' element={<DisplayDetail />} />
 
         {/* Aqui você envolve apenas a rota de DisplayPlayer com o PlayerProvider */}
-        <Route path='/player/:id' element={
+        <Route path='/player/:type/:id' element={
           <PlayerProvider>
             <DisplayPlayer />
           </PlayerProvider>

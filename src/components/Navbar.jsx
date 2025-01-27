@@ -28,11 +28,10 @@ const Navbar = () => {
 
     return (
         <div
-            className={` fixed top-0  z-50 p-3 px-10 flex items-center justify-self-center		 justify-between transition-all duration-300 ease-in-out ${
-                isScrolled ? 'bg-[#33373E] text-white shadow-md  w-[99%]   ml-1  lg:ml-2 bg-opacity-70 rounded-b-lg backdrop-blur-xl	' : 'bg-transparent text-black w-full left-0'
-            }`}
+            className={` fixed top-0  z-50 p-3 px-10 flex items-center justify-self-center		 justify-between transition-all duration-300 ease-in-out ${isScrolled ? 'bg-[#33373E] text-white shadow-md  w-[99%]   ml-1  lg:ml-2 bg-opacity-70 rounded-b-lg backdrop-blur-xl	' : 'bg-transparent text-black w-full left-0'
+                }`}
         >
-  
+
 
             <div className='text-white text-center font-[550] lg:flex items-center gap-3  hidden '>
 
@@ -128,13 +127,13 @@ const Navbar = () => {
                 <div onClick={toggleVisibilitySearchBar} className=' cursor-pointer group w-10 h-10 rounded-full hover:bg-white p-2 flex items-center justify-center'>
                     <img className='w-[80%] group-hover:invert' src={assets.search_icon} alt="" />
                 </div>
-                <div onClick={() => navigate(`/categories`) } className={`cursor-pointer group w-10 h-10 rounded-full hover:bg-white p-2 lg:flex items-center 
-                 justify-center hidden ${  path.includes('categories')
-                    ? 'bg-gradient-to-b from-white via-gray-500 via-gray-500 via-gray-700 to-gray-900'
+                <div onClick={() => navigate(`/categories`)} className={`cursor-pointer group w-10 h-10 rounded-full hover:bg-white p-2 lg:flex items-center 
+                 justify-center hidden ${path.includes('categories')
+                        ? 'bg-gradient-to-b from-white via-[#44484e]  to-[#44484e]'
 
-                    : ''}`}>
-<img className={`w-[80%] ${path.includes('categories') ? '' : 'group-hover:invert'}`} src={assets.categories_icon} alt="" />
-<div className='  absolute bg-[#181C23] text-white -ml-[35%] p-4 rounded-lg bg-opacity-80  
+                        : ''}`}>
+                    <img className={`w-[80%] ${path.includes('categories') ? '' : 'group-hover:invert'}`} src={assets.categories_icon} alt="" />
+                    <div className='  absolute bg-[#181C23] text-white -ml-[35%] p-4 rounded-lg bg-opacity-80  
                     transition-all duration-300 ease-in-out top-[77.5%]  hidden     group-hover:flex transform translate-x-[200%]   group-hover:flex group-hover:translate-x-0'>
                         {/* Primeira lista de gêneros */}
                         <div className=''>
@@ -211,8 +210,11 @@ const Navbar = () => {
 
                 </div>
 
-                <div onClick={() => navigate(`/mystuff`)} className='cursor-pointer group w-10 h-10 rounded-full hover:bg-white p-2 lg:flex items-center justify-center hidden'>
-                    <img className='w-[80%] group-hover:invert' src={assets.mystuff_icon} alt="" />
+                <div onClick={() => navigate(`/mystuff`)} className={` ${path.includes('mystuff')
+                        ? 'bg-gradient-to-b from-white via-[#44484e]  to-[#44484e]'
+
+                        : ''} cursor-pointer group w-10 h-10 rounded-full hover:bg-white p-2 lg:flex items-center justify-center hidden`}>
+                    <img className={`w-[80%] ${path.includes('mystuff') ? '' : 'group-hover:invert'}`} src={assets.mystuff_icon} alt="" />
 
                     <div className="absolute bg-[#181C23] -ml-5 text-white p-4 rounded-lg bg-opacity-80 transition-all duration-500 ease-in-out top-[77.5%] transform  translate-x-[300px] hidden  group-hover:block  group-hover:translate-x-0">
                         <p className='text-md  p-2 mb-2 brightness-50 tracking-wide	'>MINHA ÁREA</p>
@@ -229,7 +231,7 @@ const Navbar = () => {
 
                 </div>
                 <div className='cursor-pointer group w-10 h-10 rounded-full hover:bg-white  flex items-center justify-center'>
-                    <img className='w-[100%] group-hover:' src={assets.profile_icon} alt="" />
+                    <img onClick={() => navigate('/editprofile')} className='w-[100%] group-hover:' src={assets.profile_icon} alt="" />
 
                     <div className='absolute bg-[#181C23] -ml-[35%] lg:-ml-[25%] text-white p-4 rounded-lg 
                      bg-opacity-80 transition-all duration-500 ease-in-out top-[77.5%] transform 

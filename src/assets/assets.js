@@ -39,6 +39,7 @@ import invincibleBG from './invincibleBG.png'
 import invincibleL from './invincibleL.png'
 
 
+import teaserDefault from './theboysTEASER.mp4'
 
 
 import theofficeIMG from './theofficeIMG.jpg'
@@ -73,7 +74,8 @@ export const assets = {
   enter_full_screen_icon,
   exit_icon,
   settings_icon,
-  pause_icon
+  pause_icon,
+  teaserDefault
 
 }
 
@@ -276,7 +278,6 @@ export const categories = [
     name: "Ficção Científica",
     bgColor: "#2F3135",
   },
-
 
 
 

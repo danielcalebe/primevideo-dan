@@ -1,137 +1,157 @@
 // DisplayDetailContent.jsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { assets, seriesData } from '../assets/assets';
-import { useParams } from 'react-router-dom';
-import SerieItem from './SerieItem';
+import { useNavigate, useParams } from 'react-router-dom';
+import SerieItem from './CarrousselItem';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
-const DisplayDetailContent = ({ activeContent }) => {
+import api from '../api';
+import CarrousselItem from './CarrousselItem';
+const DisplayDetailContent = ({ activeContent, selectedSeason, seasonNumber, episodes }) => {
 
     const { id } = useParams();
-    const data = seriesData ? seriesData[id - 1] : null;
+    const { type } = useParams();
+    const [movie, setMovie] = useState(null); // Inicializa o estado do filme
+    const [tvshow, setTvshow] = useState(null); // Inicializa o estado da série de TV
+    const [similarContent, setSimilarContent] = useState([]); // Estado para conteúdos similares
+    const navigate = useNavigate();
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                let response;
+
+                // Detalhes do filme ou série
+                if (type === 'movie') {
+                    response = await api.get(`/movie/${id}`, {
+                        params: {
+                            api_key: import.meta.env.VITE_TMDB_API_KEY,
+                            language: 'pt-BR',
+                        },
+                    });
+                    if (response.data) setMovie(response.data);
+
+                    // Filmes similares
+                    const similarResponse = await api.get(`/movie/${id}/similar`, {
+                        params: {
+                            api_key: import.meta.env.VITE_TMDB_API_KEY,
+                            language: 'pt-BR',
+                        },
+                    });
+                    if (similarResponse.data?.results) setSimilarContent(similarResponse.data.results);
+                } else if (type === 'tvshow') {
+                    response = await api.get(`/tv/${id}`, {
+                        params: {
+                            api_key: import.meta.env.VITE_TMDB_API_KEY,
+                            language: 'pt-BR',
+                        },
+                    });
+                    if (response.data) setTvshow(response.data);
+
+                    // Séries similares
+                    const similarResponse = await api.get(`/tv/${id}/similar`, {
+                        params: {
+                            api_key: import.meta.env.VITE_TMDB_API_KEY,
+                            language: 'pt-BR',
+                        },
+                    });
+                    if (similarResponse.data?.results) setSimilarContent(similarResponse.data.results);
+                }
+            } catch (error) {
+                console.error('Erro ao buscar detalhes ou conteúdos similares:', error);
+            }
+        };
+
+        fetchData();
+    }, [id, type]);
+
+    // Renderização condicional para carregamento
+    if (type === 'movie' && !movie) {
+        return <div>Carregando filme...</div>;
+    }
+
+    if (type === 'tvshow' && !tvshow) {
+        return <div>Carregando série de TV...</div>;
+    }
+
+
+
+
+
 
 
     const contents = {
-        a: (
-            <div className='px-8'>
-                <div className='w-full flex justify-end '>
-                    <select className=' cursor-pointer bg-[#33373E] p-3 text-xl border-0 rounded-lg hover:text-black hover:bg-white transition-all duration-800 easy-in-out' name="" id="">
-                        <option className='bg-[#33373E] p-3 text-xl text-white border-0 rounded-lg hover:text-black hover:bg-white transition-all duration-800 easy-in-out' value="1">Classificar   </option>
-                        <option className='bg-[#33373E] p-3 text-xl text-white border-0 rounded-lg hover:text-black hover:bg-white transition-all duration-800 easy-in-out' value="2">Número do episódio</option>
-                        <option className='bg-[#33373E] p-3 text-xl text-white border-0 rounded-lg hover:text-black hover:bg-white transition-all duration-800 easy-in-out' value="3">Episódio mais recente</option>
-                    </select>
-                </div>
-                <div className="flex flex-col mt-4 justify-center">
-                    <div className='flex  items-center-center justify-between text-white group hover:bg-[#191E25] p-4 rounded-lg  '>
-                        <div className='flex '>
-                            <div className='p-3 w-[30%] lg:w-[28%] relative cursor-pointer   '>
-                                <img className='hidden lg:block rounded-lg' src={data.background} alt="" />
-                                <div className="lg:opacity-0 hover:scale-110 group-hover:opacity-100 transition-all duration-900 easy-in-out lg:absolute bg-white p-4
-                                 rounded-full flex items-center justify-center lg:top-[30%] lg:left-[45%] w-14">
-                                    <img className='invert brightness-75' src={assets.play_icon} alt="" />
-                                </div>
+        a: selectedSeason && tvshow ? (
+            <div className="flex flex-col mt-4 justify-center">
+                {episodes ? (
+                    episodes.map((episode) => (
+                        <div
+                            key={episode.id}
+                            className=" relative flex items-center lg:items-start
+ justify-between text-white group hover:bg-[#191E25] p-4 rounded-lg"
+                        >
+                            <div className="flex">
+                                <div className="p-3 w-[30%] lg:w-[28%] relative cursor-pointer">
+                                    <img
+                                        className="hidden lg:block rounded-lg"
+                                        src={`https://image.tmdb.org/t/p/w1280${episode.still_path ? episode.still_path : tvshow.backdrop_path}`}
+                                        alt={`Episódio ${episode.episode_number}`}
+                                    />
+                                    <div onClick={() =>
+                                        navigate(
+                                            `/player/${type}/${type === 'tvshow' ? tvshow.id : movie.id}${type === 'tvshow' ? `?season=${selectedSeason.season_number}&episode=${episode.episode_number}` : ''
+                                            }`
+                                        )}
+                                        className="lg:opacity-0 hover:scale-110 group-hover:opacity-100 transition-all duration-900 ease-in-out lg:absolute bg-white p-4 rounded-full flex items-center justify-center lg:top-[30%] lg:left-[45%] w-14">
+                                        <img
 
+                                            className="invert brightness-75"
+                                            src={assets.play_icon}
+                                            alt=""
+                                        />
+                                    </div>
+                                </div>
+                                <div className="p-3 flex flex-col gap-3 w-[70%] lg:w-[35%] justify-center">
+                                    <h4 className="text-sm lg:text-lg font-semibold tracking-wider truncate">
+                                        T{episode.season_number} EP.{episode.episode_number} - {episode.name}
+                                    </h4>
+                                    <div className="gap-3 lg:flex hidden">
+                                        {new Date(episode.air_date).toLocaleDateString('pt-BR')}
+                                        <p>{episode.runtime || '0'} min</p>
+                                        <img className="w-6" src={assets.age_icon} alt="" />
+                                    </div>
+                                    <div className="hidden lg:block">
+                                        <p className="line-clamp-2 brightness-75 text-lg">
+                                            {episode.overview || 'Sem descrição disponível.'}
+                                        </p>
+                                    </div>
+                                    <div className="truncate gap-1 items-center lg:flex hidden">
+                                        <img className="w-5" src={assets.verified_icon} alt="" />
+                                        <p className="truncate pt-[0.6px]">Incluído no Prime</p>
+                                    </div>
+                                    <div className="truncate lg:block hidden p-2 rounded-lg bg-[#474B51] w-[50%] text-center py-4 text-lg opacity-0 group-hover:opacity-100 transition-all duration-500 ease-in-out hover:bg-white hover:text-black cursor-pointer">
+                                        <h5>Mais opções de compra</h5>
+                                    </div>
+                                </div>
                             </div>
-                            <div className=' p-3 flex flex-col gap-3 w-[70%] lg:w-[35%] justify-center'>
-                                <h4 className=" text-sm lg:text-lg font-semibold tracking-wider truncate ">T1 EP.1 - Title of the episode</h4>
-                                <div className=' gap-3 lg:flex hidden'>
-                                    <p className="text-md  "> 16 de janeiro de 2025 </p>
-                                    <p>42 min</p>
-                                    <img className='w-6 ' src={assets.age_icon} alt="" />
+                            <div className="flex gap-3 lg:w-[10%] w-[40%] h-[100%] items-center   lg:self-auto self-center">
+                                <div className="hover:bg-gray-800 cursor-pointer p-3 rounded-full h-12 flex items-center">
+                                    <img className="w-8" src={assets.download_icon} alt="" />
                                 </div>
-
-                                <div className='hidden lg:block'>
-                                    <p className={`line-clamp-2 brightness-75 text-lg 	
-`}>
-                                        {data.description}
-                                    </p>
-
-                                </div>
-
-
-                                <div className='  truncate gap-1 items-center lg:flex hidden '>
-                                    <img className='w-5' src={assets.verified_icon} alt="" />
-                                    <p className='truncate pt-[0.6px]'>Incluído no Prime</p>
-                                </div>
-                                <div className='truncate lg:block hidden p-2 rounded-lg bg-[#474B51] w-[50%] text-center py-4 text-lg opacity-0 group-hover:opacity-100 transition-all duration-500 easy-in-out hover:bg-white hover:text-black cursor-pointer  '>
-                                    <h5>Mais opções de compra</h5>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className='flex gap-3 w-[40%] h-[100%] items-center lg:self-auto	 self-center'>
-                            <div className='hover:bg-gray-800 cursor-pointer p-3 rounded-full  h-12 flex items-center'>
-                                <img className='w-8' src={assets.download_icon} alt="" />
-                            </div>
-                            <h3 className='lg:hidden cursor-pointer text-center truncate'>. . .</h3>
-
-
-
-                        </div>
-
-                    </div>
-
-
-                    <div className='flex  items-center-center justify-between text-white group hover:bg-[#191E25] p-4 rounded-lg  '>
-                        <div className='flex '>
-                            <div className='p-3 w-[30%] lg:w-[28%] relative cursor-pointer   '>
-                                <img className='hidden lg:block rounded-lg' src={data.background} alt="" />
-                                <div className="lg:opacity-0 hover:scale-110 group-hover:opacity-100 transition-all duration-900 easy-in-out lg:absolute bg-white p-4
-                                 rounded-full flex items-center justify-center lg:top-[30%] lg:left-[45%] w-14">
-                                    <img className='invert brightness-75' src={assets.play_icon} alt="" />
-                                </div>
-
-                            </div>
-                            <div className=' p-3 flex flex-col gap-3 w-[70%] lg:w-[35%] justify-center'>
-                                <h4 className=" text-sm lg:text-lg font-semibold tracking-wider truncate ">T1 EP.1 - Title of the episode</h4>
-                                <div className=' gap-3 lg:flex hidden'>
-                                    <p className="text-md  "> 16 de janeiro de 2025 </p>
-                                    <p>42 min</p>
-                                    <img className='w-6 ' src={assets.age_icon} alt="" />
-                                </div>
-
-                                <div className='hidden lg:block'>
-                                    <p className={`line-clamp-2 brightness-75 text-lg 	
-`}>
-                                        {data.description}
-                                    </p>
-
-                                </div>
-
-
-                                <div className='  truncate gap-1 items-center lg:flex hidden '>
-                                    <img className='w-5' src={assets.verified_icon} alt="" />
-                                    <p className='truncate pt-[0.6px]'>Incluído no Prime</p>
-                                </div>
-                                <div className=' truncate lg:block hidden p-2 rounded-lg bg-[#474B51] w-[50%] text-center py-4 text-lg opacity-0 group-hover:opacity-100 transition-all duration-500 easy-in-out hover:bg-white hover:text-black cursor-pointer  '>
-                                    <h5>Mais opções de compra</h5>
-                                </div>
+                                <h3 className="lg:hidden cursor-pointer text-center truncate">. . .</h3>
                             </div>
                         </div>
-
-                        <div className='flex gap-3 w-[40%] h-[100%] items-center lg:self-auto	 self-center'>
-                            <div className='hover:bg-gray-800 cursor-pointer p-3 rounded-full  h-12 flex items-center'>
-                                <img className='w-8' src={assets.download_icon} alt="" />
-                            </div>
-                            <h3 className='lg:hidden cursor-pointer text-center truncate'>. . .</h3>
-
-
-
-                        </div>
-
-                    </div>
-
-
-
-                </div>
-
-
+                    ))
+                ) : (
+                    <p>Esta temporada não possui episódios disponíveis.</p>
+                )}
             </div>
-
+        ) : (
+            <p>Selecione uma temporada para visualizar os episódios.</p>
         ),
+
         b: (
             <div className='p-2 mb-[30%]'>
 
@@ -159,43 +179,82 @@ const DisplayDetailContent = ({ activeContent }) => {
                         }}
                         spaceBetween={300}
                         slidesPerView={5}
-                        className="w-full flex gap-4"
                     >
-                        {seriesData.map((serie, index) => (
-                            <SwiperSlide key={serie.id}>
-                                <SerieItem
-                                    id={serie.id}
-                                    name={serie.name}
-                                    description={serie.description}
-                                    background={serie.background}
+                        {similarContent
+                            .filter((similar) => similar.backdrop_path) // Filtra itens sem backdrop_path
+                            .map((similar, index) => (
+                                <SwiperSlide key={similar.id}>
+                                    <CarrousselItem
+                                        id={similar.id}
+                                        name={similar.name || similar.title} // Usa `name` para séries ou `title` para filmes
+                                        description={similar.overview} // Ajusta para usar a propriedade correta
+                                        background={`https://image.tmdb.org/t/p/w1280${similar.backdrop_path}`}
+                                        type={similar.media_type || (similar.title ? 'movie' : 'tvshow')} // Determina o tipo com base nos dados
+                                        logo={`https://image.tmdb.org/t/p/w1280${similar.poster_path}`}
+                                        index={index} // Usa o índice correto do loop
+                                    />
+                                </SwiperSlide>
+                            ))}
 
-                                    logo={serie.logo}
+                        <div className='w-[50%] h-200 '>
 
-                                    index={serie.index}
-                                />
-                            </SwiperSlide>
-                        ))}
+                        </div>
                     </Swiper>
                 </div>
 
 
+                
+                
+
+
             </div>
         ),
+
+
         c: (
+
             <div className='flex flex-col gap-10 px-4 mb-[30%] px-8'>
-                <h6 className="text-semibold text-lg">Saiba mais</h6>
+                <h6 className="text-semibold text-lg">Saiba mais </h6>
                 <div className='flex gap-3 flex-col'>
                     <h1 className='text-3xl font-bold'>Classificação do Conteudo</h1>
-                    <p className='text-[#AAAAAA] text-lg'>Drogas lícitas, violência</p>
+                    <p className='text-[#AAAAAA] text-lg'>{type == 'tvshow' ? tvshow.adult ? 'Para maiores de 18' : 'Para menores de 18' : movie.adult ? 'Para maiores de 18' : 'Para menores de 18'}   </p>
                 </div>
                 <div className='flex gap-3 flex-col'>
-                    <h1 className='text-3xl font-bold'>Idioma de áudio</h1>
-                    <p className='text-[#AAAAAA] text-lg'>Português(Brasil), English</p>
+                    <h1 className='text-3xl font-bold '>Idioma de áudio</h1>
+                    <div className='flex gap-2'>
+                        {type == 'tvshow' ?
+
+                            tvshow.languages && tvshow.languages.map((language) => (
+
+                                <p className='text-[#AAAAAA] text-lg'>{language} -</p>
+                            ))
+                            :
+
+                            <p className='text-[#AAAAAA] text-lg'>{movie.original_language} </p>
+
+                        }
+
+                    </div>
+
                 </div>
 
                 <div className='flex gap-3 flex-col'>
                     <h1 className='text-3xl font-bold'>Legendas</h1>
-                    <p className='text-[#AAAAAA] text-lg'>Português(Brasil), English</p>
+                    <div className='flex gap-2'>
+
+                        {type == 'tvshow' ?
+
+                            tvshow.languages && tvshow.languages.map((language) => (
+
+                                <p className='text-[#AAAAAA] text-lg'>{language} -</p>
+                            ))
+                            :
+
+
+                            <p className='text-[#AAAAAA] text-lg'>{movie.original_language} </p>
+
+                        }
+                    </div>
                 </div>
 
                 <div className='flex gap-3 flex-col'>
@@ -223,16 +282,26 @@ const DisplayDetailContent = ({ activeContent }) => {
                     </p>
                 </div>
                 <div className='flex gap-3 flex-col'>
-                    <h1 className='text-3xl font-bold'>Estúdio</h1>
-                    <p className='text-[#AAAAAA] text-lg'>Estúdio</p>
+                    <h1 className='text-3xl font-bold'>Produção</h1>
+                    {type == 'tvshow' ?
+                        tvshow.production_companies && tvshow.production_companies.map((production_companie) => (
+                            <p className='text-[#AAAAAA] text-lg'>{production_companie.name}</p>
+                        ))
+                        :
+                        movie.production_companies && movie.production_companies.map((production_companie) => (
+                            <p className='text-[#AAAAAA] text-lg'>{production_companie.name}</p>
+                        ))
+
+                    }
+
                 </div>
 
                 <p className='tracing-wide text-[#AAAAAA] font-semibold flex gap-3'>Ao clicar em reproduzir você concorda com nossos <p className='text-white underline cursor-pointer'>Termos de uso</p></p>
-          
-          
-            <hr className="w-full border-[#AAAAAA] border-2 brightness-75" />
 
-            <div className='flex gap-3 flex-col mt-8'>
+
+                <hr className="w-full border-[#AAAAAA] border-2 brightness-75" />
+
+                <div className='flex gap-3 flex-col mt-8'>
                     <h1 className='text-xl font-bold'>Feedback</h1>
                     <p className='underline text-lg cursor-pointer'>Enviar feedback</p>
                 </div>
@@ -246,7 +315,7 @@ const DisplayDetailContent = ({ activeContent }) => {
 
             </div>
 
-         
+
         ),
     };
 
