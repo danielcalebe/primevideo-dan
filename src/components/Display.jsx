@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
 import DisplayHome from './DisplayHome';
 import DisplayCategories from './DisplayCategories';
 import Footer from './Footer';
@@ -9,6 +8,7 @@ import DisplayMyStuff from './DisplayMyStuff';
 import DisplayDetail from './DisplayDetail';
 import DisplayPlayer from './DisplayPlayer';
 import { PlayerProvider } from '../context/PlayerContext';
+import DisplaySearch from './DisplaySearch';
 
 const Display = () => {
   return (
@@ -19,6 +19,8 @@ const Display = () => {
         <Route path='/editprofile' element={<DisplayEditProfile />} />
         <Route path='/mystuff' element={<DisplayMyStuff />} />
         <Route path='/detail/:type/:id' element={<DisplayDetail />} />
+        <Route path='/search/' element={<DisplaySearch />} />
+
 
         {/* Aqui você envolve apenas a rota de DisplayPlayer com o PlayerProvider */}
         <Route path='/player/:type/:id' element={

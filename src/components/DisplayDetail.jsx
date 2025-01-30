@@ -1,146 +1,40 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { Navigation, Pagination, Autoplay } from 'swiper/modules';
-import { assets } from '../assets/assets';
-import { useNavigate, useParams } from 'react-router-dom';
 import DisplayDetailContent from './DisplayDetailContent';
-import api from '../api';
-import axios from 'axios';
+import { useDetailsJs } from '../utils/Details';
+import { useUtils } from '../utils/utils';
 
 const DisplayDetail = () => {
-    const { id } = useParams();
-    const { type } = useParams();
-    const [movie, setMovie] = useState(null); // Inicializa o estado do filme
-    const [tvshow, setTvshow] = useState(null); // Inicializa o estado da série de TV
-    const [activeContent, setActiveContent] = useState(type == 'tvshow' ? 'a' : 'b');
-    const [isFixed, setIsFixed] = useState(false);
-    const [selectedSeason, setSelectedSeason] = useState(0); // Colocado aqui, para evitar hook condicional
-    const [episodes, setEpisodes] = useState([]); // Estado para armazenar os episódios
+    const {
+        assets,
+        navigate
+    } = useUtils();
+    const {
+        movie,
+        tvshow,
+        activeContent,
+        setActiveContent,
+        isFixed,
+        selectedSeason,
+        episodes,
+        handleSeasonChange,
+        handleContentToggle,
+        containerDetailRef,
+        type
+    } = useDetailsJs(); 
 
-    const containerDetailRef = useRef(null);
-    const navigate = useNavigate();
-
-
-   
-
-    useEffect(() => {
-        const handleScroll = () => {
-            if (containerDetailRef.current) {
-                const containerTop = containerDetailRef.current.getBoundingClientRect().top;
-                setIsFixed(containerTop <= window.innerHeight * 0.08);
-            }
-        };
-
-        window.addEventListener('scroll', handleScroll);
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
-
-    const handleContentToggle = (content) => {
-        setActiveContent((prevContent) => (prevContent === content ? null : content));
-    };
-
-    // Fetch data
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                let response;
-                if (type === 'movie') {
-                    response = await api.get(`/movie/${id}`, {
-                        params: {
-                            api_key: import.meta.env.VITE_TMDB_API_KEY,
-                            language: 'pt-BR',
-                        },
-                    });
-                    if (response.data) {
-                        setMovie(response.data);
-                    } else {
-                        console.error('Filme não encontrado');
-                    }
-                } else if (type === 'tvshow') {
-                    response = await api.get(`/tv/${id}`, {
-                        params: {
-                            api_key: import.meta.env.VITE_TMDB_API_KEY,
-                            language: 'pt-BR',
-                        },
-                    });
-                    if (response.data) {
-                        setTvshow(response.data);
-                    } else {
-                        console.error('Série não encontrada');
-                    }
-                }
-            } catch (error) {
-                console.error(`Erro ao buscar os detalhes: ${error}`);
-            }
-        };
-
-        fetchData();
-    }, [id, type]);
-
-    
-    useEffect(() => {
-        // Define a temporada inicial ao carregar os dados da série
-        if (tvshow?.seasons?.length > 0) {
-            setSelectedSeason(tvshow.seasons[0]);
-        }
-    }, [tvshow]);
-
-    useEffect(() => {
-        // Fetch episódios quando a temporada for alterada
-        const fetchEpisodes = async () => {
-            if (selectedSeason && tvshow?.id) {
-                try {
-                    const response = await api.get(`/tv/${tvshow.id}/season/${selectedSeason.season_number}`, {
-                        params: {
-                            api_key: import.meta.env.VITE_TMDB_API_KEY,
-                            language: 'pt-BR',
-                        },
-                    });
-                    if (response.data?.episodes) {
-                        setEpisodes(response.data.episodes);
-                    } else {
-                        console.error('Episódios não encontrados');
-                    }
-                } catch (error) {
-                    console.error(`Erro ao buscar episódios: ${error}`);
-                }
-            }
-        };
-        fetchEpisodes();
-    }, [selectedSeason, tvshow]);
-
-    const handleSeasonChange = (event) => {
-        const seasonNumber = parseInt(event.target.value, 10);
-        const season = tvshow?.seasons?.find((s) => s.season_number === seasonNumber);
-        if (season) {
-            setSelectedSeason(season);
-        } else {
-            console.warn('Temporada não encontrada:', seasonNumber);
-        }
-    };
-
-    // Verifica se o filme ou a série de TV foi carregado
-    if (type === 'movie' && !movie) {
-        return <div>Carregando filme...</div>;
+    if (!movie && !tvshow) {
+        return <div>Carregando...</div>;
     }
 
-    if (type === 'tvshow' && !tvshow) {
-        return <div>Carregando série de TV...</div>;
-    }
-
-console.log(movie)
     return (
         <div className="w-full h-screen">
             <div className="w-full h-[90%] lg:h-[95%] xl:h-[80%] lg:translate-y-[13%] translate-y-[9%] transform flex flex-col inner-custom"
                 style={{
                     backgroundImage: `url(https://image.tmdb.org/t/p/w1280${type == 'tvshow' ? tvshow.backdrop_path : movie.backdrop_path})`,  // Aumente o valor de w1280 para o tamanho desejado
                     backgroundSize: 'cover',
-                    backgroundPosition: 'center',
+                    backgroundPosition: 'center top',
                     backgroundAttachment: 'fixed', // Se desejar efeito parallax
                     boxShadow: `
                     inset 300px 0px 600px 40px rgba(0, 0, 0, 0.9),
@@ -187,8 +81,8 @@ console.log(movie)
 
 
                         <p className={`w-[45%] text-[1.2rem] line-clamp-3`}>
-  {type === 'tvshow' ? tvshow.overview || 'Descrição padrão para séries.' : movie.overview || 'Descrição padrão para filmes.'}
-</p>
+                            {type === 'tvshow' ? tvshow.overview || 'Descrição padrão para séries.' : movie.overview || 'Descrição padrão para filmes.'}
+                        </p>
 
 
                         <div className="flex gap-3 items-center">
@@ -216,7 +110,7 @@ console.log(movie)
                             {type === 'tvshow' && tvshow.genres && tvshow.genres.map((genre) => (
                                 <div className="flex gap-3 items-center">
 
-                                    <p key={genre.id} className="underline font-semibold">
+                                    <p onClick={() => navigate(`/search?query=${genre.name}`)} key={genre.id} className=" cursor-pointer underline font-semibold">
                                         {genre.name}
                                     </p>
                                     •
@@ -227,7 +121,7 @@ console.log(movie)
                             {type === 'movie' && movie.genres && movie.genres.map((genre) => (
                                 <div className="flex gap-3 items-center">
 
-                                    <p key={genre.id} className="underline font-semibold flex">
+                                    <p onClick={() => navigate(`/search?query=${genre.name}`)} key={genre.id} className=" cursor-pointer underline font-semibold flex">
                                         {genre.name}
 
                                     </p>
@@ -268,23 +162,23 @@ console.log(movie)
                         <div className="flex gap-3 items-center">
                             <div className="group bg-[#33373E] bg-opacity-70 rounded-full scale-smooth hover:bg-white p-2 h-16 w-16 flex items-center justify-center cursor-pointer scale-smooth">
                                 <img className="w-[80%] group-hover:invert" src={assets.add_icon} alt="" />
-                                <h6 className="bg-white text-black text-lg rounded-lg text-center p-1 px-3 absolute -top-12 transform scale-0 transition-all easy-in-out duration-700 group-hover:scale-100">Lista</h6>
+                                <h6 className="bg-white text-black text-lg rounded-lg text-center p-1 px-3 absolute -top-12 transform scale-0 transition-all ease-in-out duration-700 group-hover:scale-100">Lista</h6>
                             </div>
                             <div className="group bg-[#33373E] bg-opacity-70 rounded-full scale-smooth hover:bg-white p-2 h-16 w-16 flex items-center justify-center cursor-pointer scale-smooth">
                                 <img className="w-[80%] group-hover:invert" src={assets.like_icon} alt="" />
-                                <h6 className="bg-white text-black text-lg rounded-lg text-center p-1 px-3 absolute -top-12 transform scale-0 transition-all easy-in-out duration-700 group-hover:scale-100">Curtir</h6>
+                                <h6 className="bg-white text-black text-lg rounded-lg text-center p-1 px-3 absolute -top-12 transform scale-0 transition-all ease-in-out duration-700 group-hover:scale-100">Curtir</h6>
                             </div>
                             <div className="group bg-[#33373E] bg-opacity-70 rounded-full scale-smooth hover:bg-white p-2 h-16 w-16 flex items-center justify-center cursor-pointer scale-smooth">
                                 <img className="w-[80%] group-hover:invert -rotate-180" src={assets.like_icon} alt="" />
-                                <h6 className="bg-white text-black text-lg rounded-lg text-center p-1 px-3 absolute -top-12 transform scale-0 transition-all easy-in-out duration-700 group-hover:scale-100 truncate">Não tenho interesse</h6>
+                                <h6 className="bg-white text-black text-lg rounded-lg text-center p-1 px-3 absolute -top-12 transform scale-0 transition-all ease-in-out duration-700 group-hover:scale-100 truncate">Não tenho interesse</h6>
                             </div>
                             <div className="group bg-[#33373E] bg-opacity-70 rounded-full scale-smooth hover:bg-white p-2 h-16 w-16 flex items-center justify-center cursor-pointer scale-smooth">
                                 <img className="w-[80%] group-hover:invert" src={assets.download_icon} alt="" />
-                                <h6 className="bg-white text-black text-lg rounded-lg text-center p-1 px-3 absolute -top-12 transform scale-0 transition-all easy-in-out duration-700 group-hover:scale-100">Download</h6>
+                                <h6 className="bg-white text-black text-lg rounded-lg text-center p-1 px-3 absolute -top-12 transform scale-0 transition-all ease-in-out duration-700 group-hover:scale-100">Download</h6>
                             </div>
                             <div className="group bg-[#33373E] bg-opacity-70 rounded-full scale-smooth hover:bg-white p-2 h-16 w-16 flex items-center justify-center cursor-pointer scale-smooth">
                                 <img className="w-[80%] group-hover:invert" src={assets.share_icon} alt="" />
-                                <h6 className="bg-white text-black text-lg rounded-lg text-center p-1 px-3 absolute -top-12 transform scale-0 transition-all easy-in-out duration-700 group-hover:scale-100">Compartilhar</h6>
+                                <h6 className="bg-white text-black text-lg rounded-lg text-center p-1 px-3 absolute -top-12 transform scale-0 transition-all ease-in-out duration-700 group-hover:scale-100">Compartilhar</h6>
                             </div>
 
                         </div>

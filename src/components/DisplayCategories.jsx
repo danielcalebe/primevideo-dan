@@ -1,10 +1,10 @@
 import React from 'react';
 import { categories } from '../assets/assets';
-import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const DisplayCategories = () => {
 
- 
+ const navigate = useNavigate();
 
     return (
         <div className="bg-black  flex-col flex  w-full p-5">
@@ -18,6 +18,7 @@ const DisplayCategories = () => {
                 {categories.map((item, index) => {
                     return (
                         <div
+                        onClick={() => navigate(`/search?query=${item.name}`)}
                             key={index}
                             className="p-4 w-[45%] md:w-[30%] lg:w-[17.5%] py-12 flex items-center justify-start rounded-lg text-white font-bold text-xl"
                             style={{

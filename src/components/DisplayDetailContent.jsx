@@ -1,83 +1,21 @@
 // DisplayDetailContent.jsx
-import React, { useEffect, useState } from 'react';
-import { assets, seriesData } from '../assets/assets';
-import { useNavigate, useParams } from 'react-router-dom';
-import SerieItem from './CarrousselItem';
+import React, { } from 'react';
+import { assets } from '../assets/assets';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { Navigation, Pagination, Autoplay } from 'swiper/modules';
-import api from '../api';
+import { Navigation } from 'swiper/modules';
 import CarrousselItem from './CarrousselItem';
-const DisplayDetailContent = ({ activeContent, selectedSeason, seasonNumber, episodes }) => {
+import { useDetailsContentJs } from '../utils/DetailsContent';
+const DisplayDetailContent = ({ activeContent, selectedSeason, episodes }) => {
 
-    const { id } = useParams();
-    const { type } = useParams();
-    const [movie, setMovie] = useState(null); // Inicializa o estado do filme
-    const [tvshow, setTvshow] = useState(null); // Inicializa o estado da série de TV
-    const [similarContent, setSimilarContent] = useState([]); // Estado para conteúdos similares
-    const navigate = useNavigate();
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                let response;
-
-                // Detalhes do filme ou série
-                if (type === 'movie') {
-                    response = await api.get(`/movie/${id}`, {
-                        params: {
-                            api_key: import.meta.env.VITE_TMDB_API_KEY,
-                            language: 'pt-BR',
-                        },
-                    });
-                    if (response.data) setMovie(response.data);
-
-                    // Filmes similares
-                    const similarResponse = await api.get(`/movie/${id}/similar`, {
-                        params: {
-                            api_key: import.meta.env.VITE_TMDB_API_KEY,
-                            language: 'pt-BR',
-                        },
-                    });
-                    if (similarResponse.data?.results) setSimilarContent(similarResponse.data.results);
-                } else if (type === 'tvshow') {
-                    response = await api.get(`/tv/${id}`, {
-                        params: {
-                            api_key: import.meta.env.VITE_TMDB_API_KEY,
-                            language: 'pt-BR',
-                        },
-                    });
-                    if (response.data) setTvshow(response.data);
-
-                    // Séries similares
-                    const similarResponse = await api.get(`/tv/${id}/similar`, {
-                        params: {
-                            api_key: import.meta.env.VITE_TMDB_API_KEY,
-                            language: 'pt-BR',
-                        },
-                    });
-                    if (similarResponse.data?.results) setSimilarContent(similarResponse.data.results);
-                }
-            } catch (error) {
-                console.error('Erro ao buscar detalhes ou conteúdos similares:', error);
-            }
-        };
-
-        fetchData();
-    }, [id, type]);
+    const { movie, tvshow, similarContent, type } = useDetailsContentJs();
 
     // Renderização condicional para carregamento
-    if (type === 'movie' && !movie) {
-        return <div>Carregando filme...</div>;
+    if (!movie && !tvshow) {
+        return <div className='text-white'>Carregando detalhes...</div>;
     }
-
-    if (type === 'tvshow' && !tvshow) {
-        return <div>Carregando série de TV...</div>;
-    }
-
-
-
 
 
 
@@ -160,13 +98,13 @@ const DisplayDetailContent = ({ activeContent, selectedSeason, seasonNumber, epi
 
                     {/* Botão de Navegação para o carrossel de "Séries em Destaque" */}
                     <button
-                        className="peer custom-prev-second text-white absolute left-6 top-[155px] hover:bg-[#33373E] hover:bg-opacity-50 transform scale-90 transition-all duration-300 easy-in-out hover:scale-110 p-1 py-16 rounded transform -translate-y-1/2 z-20"
+                        className="peer custom-prev-second text-white absolute left-6 top-[155px] hover:bg-[#33373E] hover:bg-opacity-50 transform scale-90 transition-all duration-300 ease-in-out hover:scale-110 p-1 py-16 rounded transform -translate-y-1/2 z-20"
                     >
                         <img className="w-4 rotate-90" src={assets.arrow_white_icon} alt="" />
                     </button>
 
                     <button
-                        className="custom-next-second text-white absolute right-6 top-[155px] hover:bg-[#33373E] hover:bg-opacity-50 transform scale-90 transition-all duration-300 easy-in-out hover:scale-110 p-1 py-16 transform -translate-y-1/2 z-30"
+                        className="custom-next-second text-white absolute right-6 top-[155px] hover:bg-[#33373E] hover:bg-opacity-50 transform scale-90 transition-all duration-300 ease-in-out hover:scale-110 p-1 py-16 transform -translate-y-1/2 z-30"
                     >
                         <img className="w-4 -rotate-90" src={assets.arrow_white_icon} alt="" />
                     </button>

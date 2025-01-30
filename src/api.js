@@ -8,7 +8,21 @@ const api = axios.create({
   }
 });
 
-// Exemplo de uma solicitação para obter informações de autenticação
+export const fetchSearchResults = async (query) => {
+  try {
+    const response = await api.get(`/search/multi`, {
+      params: {
+        query,
+        language: 'pt-BR'
+      }
+    });
+    return response.data.results; 
+  } catch (error) {
+    console.error('Erro ao buscar resultados:', error);
+    return [];
+  }
+};
+
 api.get('/authentication')
   .then(response => {
     console.log(response.data);
@@ -16,6 +30,5 @@ api.get('/authentication')
   .catch(error => {
     console.error('Erro ao fazer a solicitação:', error);
   });
-
 
 export default api;

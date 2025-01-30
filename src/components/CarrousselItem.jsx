@@ -1,31 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { assets } from '../assets/assets';
-import tmdb from '../assets/api/tmdb'; // Certifique-se de que o tmdb está importado corretamente
-import { useNavigate } from 'react-router-dom';
-import api from '../api';
+import React, { } from 'react';
+import { useUtils } from '../utils/utils';
 const CarrousselItem = ({ id, name, description, background, logo, type }) => {
-  const navigate = useNavigate()
 
-
-  const refreshPage = () => {
-    navigate(0); // Recarrega a página, forçando uma nova renderização
-};
-
-
-
+  const {
+    refreshPage,
+    navigate,
+    assets
+  } = useUtils();
 
   return (
     <div className=''>
-      <div onClick={() => {
-  navigate(`/detail/${type}/${id}`); // Navega para a página com o novo id
-  refreshPage(); // Chama a função para forçar a atualização da página
-}}
-className="min-w-[300px] min-h-[150px] rounded text-white group ">
-        <div
+      <div
+        className="min-w-[300px] min-h-[150px] rounded text-white group ">
+        <div onClick={() => {
+          navigate(`/detail/${type}/${id}`); // Navega para a página com o novo id
+          refreshPage(); // Chama a função para forçar a atualização da página
+        }}
           className="  min-h-[150px] sm:min-h-[150px] lg:min-h-[150px] rounded relative group-hover:scale-110 transition-all duration-300 ease-in-out"
           style={{
-            backgroundImage: `url(${background})`,
-         
+            backgroundImage: `url(${background ? background : logo})`,
+
             backgroundSize: 'cover',
           }}
         >
@@ -42,9 +36,12 @@ className="min-w-[300px] min-h-[150px] rounded text-white group ">
           <h2 className="text-sm sm:text-md">{name}</h2>
           <h4 className="text-[#37F1A3] text-xs font-medium">#30 no Brasil</h4>
           <div className="flex flex-col gap-2">
-            <div className="flex bg-[#33373E] rounded-lg py-3 sm:py-4 m-[1px] gap-2 items-center justify-center mt-2">
+            <div onClick={() => {
+              navigate(`/player/${type}/${id}`); // Navega para a página com o novo id
+              refreshPage(); // Chama a função para forçar a atualização da página
+            }} className="cursor-pointer flex bg-[#33373E] rounded-lg py-3 sm:py-4 m-[1px] gap-2 items-center justify-center mt-2">
               <img className="w-5 sm:w-6" src={assets.play_icon} alt="Play" />
-              <h3 className="text-xs sm:text-sm font-medium">Reproduzir T1, Ep. 1</h3>
+              <h3 className="text-xs sm:text-sm font-medium">Reproduzir {type == 'tvshow' ? 'T1, Ep. 1' : ''}  </h3>
             </div>
             <div className="flex items-center gap-2">
               <div className="bg-[#33373E] rounded-full p-2 sm:p-3">

@@ -10,17 +10,21 @@ const OriginalsItem = ({ id, name, description, img1, img2, logo, type }) => {
   const navigate = useNavigate();
   return (
     <div className=" group w-[50%] md:w-[30%] lg:w-[20%] hover:lg:w-[50%] hover:w-[120%] hover:md:w-[20%] hover:sm:w-[60%]  
-     flex-shrink-0 relative group-group transition-transform duration-500 scale-90 hover:scale-100">
+     flex-shrink-0 relative group-group transition-transform duration-700 scale-90 hover:scale-100 ease-initial
+
+
+
+" >
       <div className='w-full group-hover:hidden '>
         <img src={assets.logo_prime_white} alt="" className="absolute w-10 bottom-2 right-2 " />
 
         <img className="" src={img1} alt={name} />
       </div>
-      <div className=' relative group-hover:flex hidden'>
-        <img className='h-full ' src={img2} alt="" />
+      <div  onClick={() => navigate(`/detail/${type}/${id}`)}  className=' relative group-hover:flex hidden  group-hover:opacity-100 opacity-0 transtion-all transform scale-0  duration-700  ease-in-out group-hover:scale-100'>
+        <img className='h-full 'src={img2} alt="" />
 
         <div className='absolute h-full z-10 flex flex-col justify-center mt-10 pl-10'>
-          <img className='w-[20%] p-2' src={logo} alt="" />
+          <img className='w-[20%] p-2 transition-all transform duration-400 ease-in-out hover:scale-110' src={logo} alt="" />
           <div className='flex gap-4'>
 
             <div onClick={() => {
@@ -31,7 +35,7 @@ const OriginalsItem = ({ id, name, description, img1, img2, logo, type }) => {
               <h3 className="text-lg font-medium text-white ">Reproduzir</h3>
             </div>
             <div className="cursor-pointer  flex items-center gap-2">
-              <div className="bg-[#33373E] bg-opacity-60 rounded-full p-4 transition-all duration-400 transform hover:scale-110">
+              <div className="bg-[#33373E] bg-opacity-60 rounded-full p-4 transition-all duration-4 transform hover:scale-110">
                 <img className="w-6  " src={assets.add_icon} alt="" />
               </div>
               <div className="cursor-pointer  bg-[#33373E] bg-opacity-60 rounded-full p-4 transition-all duration-400 transform hover:scale-110">

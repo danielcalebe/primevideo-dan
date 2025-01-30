@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { usePlayerContext } from '../context/PlayerContext';  // Importe o hook do contexto
 import { assets } from '../assets/assets';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams  } from 'react-router-dom';
 import api from '../api';
 const DisplayPlayer = () => {
   const {
@@ -31,6 +31,7 @@ const DisplayPlayer = () => {
     seekVideo,
     isInactive,
     setIsInactive,
+    
   } = usePlayerContext();  // Agora você pode acessar o contexto aqui
 
   const { type, id } = useParams();
