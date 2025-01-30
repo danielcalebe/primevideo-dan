@@ -6,7 +6,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Navigation } from 'swiper/modules';
-import { useHomeJs } from '../utils/Home';
+import { useHomeJs } from '../Utils/Home';
 
 const DisplayMyStuff = () => {
 
