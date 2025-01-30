@@ -1,6 +1,6 @@
 
 import { useHomeJs } from '../utils/Home';
-import { useUtils } from '../utils/utils';
+import { useUtils } from '../utils/Utils';
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectFade } from "swiper/modules";

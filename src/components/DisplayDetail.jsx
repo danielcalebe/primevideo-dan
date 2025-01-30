@@ -3,7 +3,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import DisplayDetailContent from './DisplayDetailContent';
 import { useDetailsJs } from '../utils/Details';
-import { useUtils } from '../utils/utils';
+import { useUtils } from '../utils/Utils';
 
 const DisplayDetail = () => {
     const {
