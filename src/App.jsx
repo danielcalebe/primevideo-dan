@@ -5,7 +5,6 @@ import Navbar from './components/Navbar'
 import { assets } from './assets/assets'
 import Display from './components/Display'
 import Footer from './components/Footer'
-
 function App() {
 
   return (
