@@ -216,7 +216,7 @@ const DisplayPlayer = () => {
           >
             <div className="flex items-center w-full text-white absolute top-10 px-10 justify-between overflow-hidden">
               {/* Seção da esquerda */}
-              <div className="flex gap-4 items-center">
+              <div className=" gap-4 items-center hidden md:flex">
                 <h3 className="text-2xl">X-ray</h3>
                 <div className="flex items-center gap-1">
                   <h6>Todos</h6>
@@ -237,7 +237,7 @@ const DisplayPlayer = () => {
               </div>
 
               {/* Seção da direita (Ícones) */}
-              <div className="flex gap-5 items-center">
+              <div className=" gap-5 items-center hidden md:flex">
                 <div className="flex justify-center group">
                   <img className="cursor-pointer h-7 hover:brightness-200" src={assets.caption_icon} alt="" />
                   <p className="fixed top-24 opacity-0 group-hover:block hidden group-hover:opacity-100 text-lg">Legendas</p>
@@ -248,7 +248,7 @@ const DisplayPlayer = () => {
                 </div>
 
                 {/* Controle de som e tela cheia */}
-                <div className="relative  flex justify-center group items-center">
+                <div className="relative  flex justify-center group items-center ">
                   <img
                     onClick={toggleMute}
                     className="cursor-pointer h-7 brightness-75 hover:brightness-200"
