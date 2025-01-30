@@ -1,7 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { assets } from '../assets/assets'
-import { useNavbarJs } from './Utils/Navbar';
-
+import { useNavbarJs } from '../Utils/navbar';
 const Navbar = () => {
         const { pathname: path } = useLocation();
     
