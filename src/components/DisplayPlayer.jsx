@@ -34,28 +34,7 @@ const DisplayPlayer = () => {
     
   } = usePlayerContext();  // Agora você pode acessar o contexto aqui
 
-  useEffect(() => {
-    // Função para verificar se a tela é pequena
-    const isMobileOrSmallScreen = window.innerWidth <= 768;
-
-    // Função para aplicar a rotação
-    const rotateScreen = () => {
-      if (isMobileOrSmallScreen) {
-        document.body.style.transform = "rotate(90deg)";
-        document.body.style.transformOrigin = "center center";
-        document.body.style.transition = "transform 0.5s ease";
-      }
-    };
-
-    // Aplicar a rotação quando a rota '/rotate' for acessada
-    rotateScreen();
-
-    // Restaura o layout quando o componente for desmontado
-    return () => {
-      document.body.style.transform = "none";
-      document.body.style.transition = "none";
-    };
-  }, []);
+  
 
 
   const { type, id } = useParams();
