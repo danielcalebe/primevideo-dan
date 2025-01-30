@@ -1,5 +1,5 @@
 import React, { } from 'react';
-import { useUtils } from '../Utils/Utils';
+import { useUtils } from '../utils/utils';
 const CarrousselItem = ({ id, name, description, background, logo, type }) => {
 
   const {

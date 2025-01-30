@@ -6,7 +6,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Navigation } from 'swiper/modules';
-import { useUtils } from '../Utils/utils';
+import { useUtils } from '../utils/utils';
 const DisplaySearch = () => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
