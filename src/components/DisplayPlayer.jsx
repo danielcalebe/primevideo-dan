@@ -225,8 +225,8 @@ const DisplayPlayer = () => {
               </div>
 
               {/* Seção do meio (Título e nome do episódio) */}
-              <div className="text-center ml-24">
-                <h1 className="text-3xl">{type == 'tvshow' ? data.name : data.title}</h1>
+              <div className="text-center md:ml-24 ml-12 ">
+                <h1 className="text-3xl truncate ">{type == 'tvshow' ? data.name : data.title}</h1>
                 {type == 'tvshow' && data?.episode  ?
                   <h5 className="text-2xl font-light font-sans">Temporada {season}, Ep. {episode} {data.episode.name}</h5>
 
@@ -289,9 +289,9 @@ const DisplayPlayer = () => {
 
             <div className='  w-full flex items-center align-middle justify-center z-20  gap-36 top-[47%] absolute'>
 
-              <img onClick={skipBackward} className=' cursor-pointer w-[4.5%] brightness-[1.20] hover:brightness-200' src={assets.back10_icon} alt="" />
-              <img onClick={togglePlayPause} className={`${isPlaying ? ' w-[3.5%] brightness-[1.30]' : 'w-[4.5%]'} cursor-pointer brightness-75 hover:brightness-200`} src={`${isPlaying ? assets.pause_icon : assets.play_icon}`} alt="" />
-              <img onClick={skipForward} className='cursor-pointer w-[4.5%] brightness-[1.20] hover:brightness-200' src={assets.skip10_icon} alt="" />
+              <img onClick={skipBackward} className=' cursor-pointer w-[20%] sm:w-[4.5%] brightness-[1.20] hover:brightness-200' src={assets.back10_icon} alt="" />
+              <img onClick={togglePlayPause} className={`${isPlaying ? 'w-[18%] sm:w-[3.5%] brightness-[1.30]' : 'sm:w-[4.5%] w-[20%]'} cursor-pointer brightness-75 hover:brightness-200`} src={`${isPlaying ? assets.pause_icon : assets.play_icon}`} alt="" />
+              <img onClick={skipForward} className='cursor-pointer w-[20%] sm:w-[4.5%] brightness-[1.20] hover:brightness-200' src={assets.skip10_icon} alt="" />
 
             </div>
 
